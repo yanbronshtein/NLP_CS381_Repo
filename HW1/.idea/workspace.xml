@@ -1,11 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="" />
+    <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/HW1.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/homework1-Spring2020-ML-for-NLP.pdf" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hw1.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hw1v2.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/train.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Python Script" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -66,34 +85,42 @@
       <option name="project" value="LOCAL" />
       <updated>1583265193153</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Created file copies but gonna change it cause useless">
+      <created>1583269262202</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1583269262202</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Created code allowing user to specify working directory to deal with file copies" />
-    <option name="LAST_COMMIT_MESSAGE" value="Created code allowing user to specify working directory to deal with file copies" />
+    <MESSAGE value="Created file copies but gonna change it cause useless" />
+    <option name="LAST_COMMIT_MESSAGE" value="Created file copies but gonna change it cause useless" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="538" y="55" key="CommitChangelistDialog2" timestamp="1583265192998">
+    <state x="538" y="55" key="CommitChangelistDialog2" timestamp="1583269262009">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="538" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1583265192998" />
-    <state width="872" height="243" key="GridCell.Tab.0.bottom" timestamp="1583269234946">
+    <state x="538" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1583269262009" />
+    <state width="885" height="243" key="GridCell.Tab.0.bottom" timestamp="1583270970925">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="872" height="243" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583269234946" />
-    <state width="872" height="243" key="GridCell.Tab.0.center" timestamp="1583269234945">
+    <state width="885" height="243" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583270970925" />
+    <state width="885" height="243" key="GridCell.Tab.0.center" timestamp="1583270970924">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="872" height="243" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1583269234945" />
-    <state width="872" height="243" key="GridCell.Tab.0.left" timestamp="1583269234944">
+    <state width="885" height="243" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1583270970924" />
+    <state width="885" height="243" key="GridCell.Tab.0.left" timestamp="1583270970923">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="872" height="243" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1583269234944" />
-    <state width="872" height="243" key="GridCell.Tab.0.right" timestamp="1583269234946">
+    <state width="885" height="243" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1583270970923" />
+    <state width="885" height="243" key="GridCell.Tab.0.right" timestamp="1583270970924">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="872" height="243" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1583269234946" />
+    <state width="885" height="243" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1583270970924" />
     <state x="689" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1583266572863">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
