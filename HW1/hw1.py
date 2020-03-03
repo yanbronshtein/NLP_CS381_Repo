@@ -5,37 +5,28 @@ import shutil
 path = input("Please enter the file path to a chosen working directory containing files test.txt and train.txt\n"
              "This can be achieved by typing pwd in a linux shell if you are already in that directory\n")
 
-# Source and destination paths
+
+# Source paths of train.txt and test.txt
 sources = [path + "/test.txt", path + "/train.txt"]
-destinations = [path + "/test_mod.txt", path + "/train_mod.txt"]
 
-# Extract raw data from test.txt
-file0_old = open(sources[0], 'r')
-lines0_old = file0_old.readlines()
-file0_old.close()
 
-# Extract raw data from training.txt
-file1_old = open(sources[1], 'r')
-lines1_old = file1_old.readlines()
-file1_old.close()
+clean_train_data = []
+clean_test_data = []
 
-# Pad each sentence in test.txt with <s> and </s> for the start and end tags
-file0 = open(destinations[0], 'w')
-for line0 in lines0_old:
-    new_line0 = "<s> " + str(line0).replace("\n", " </s>\n")
-    # print("*********************************************************************")
-    # print(new_line0)
-    # print("*********************************************************************")
-    file0.write(new_line0)
+# Extract data from test.txt
+file0 = open(sources[0], 'r')
+while line := file0.readline():
+    new_line0 = "<s> " + str(line).replace("\n", " </s>")
+    clean_train_data.append(new_line0)
 file0.close()
 
-# Pad each sentence in training.txt with <s> and </s> for the start and end tags
-file1 = open(destinations[0], 'w')
-for line1 in lines1_old:
-    new_line1 = "<s> " + str(line1).replace("\n", " </s>\n")
-    # print("*********************************************************************")
-    # print(new_line0)
-    # print("*********************************************************************")
-    file1.write(new_line1)
+# Extract data from train.txt
+file1 = open(sources[1], 'r')
+while line := file1.readline():
+    new_line1 = "<s> " + str(line).replace("\n", " </s>\n")
+    clean_test_data.append(new_line1)
 file1.close()
+
+
+
 
