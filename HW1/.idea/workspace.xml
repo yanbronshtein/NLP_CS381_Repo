@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw1.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hw1v2.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw1v2.py" afterDir="false" />
-    </list>
+    <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -113,52 +109,60 @@
       <option name="project" value="LOCAL" />
       <updated>1583271086819</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Simplified code to avoid creating extra file">
+      <created>1583274721886</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1583274721886</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Created code allowing user to specify working directory to deal with file copies" />
     <MESSAGE value="Created file copies but gonna change it cause useless" />
     <MESSAGE value="Cleaned data by adding start and end tags to each sentence in file" />
-    <option name="LAST_COMMIT_MESSAGE" value="Cleaned data by adding start and end tags to each sentence in file" />
+    <MESSAGE value="Simplified code to avoid creating extra file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Simplified code to avoid creating extra file" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="538" y="55" key="CommitChangelistDialog2" timestamp="1583271086590">
+    <state x="538" y="55" key="CommitChangelistDialog2" timestamp="1583274721717">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="538" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1583271086590" />
-    <state width="1419" height="303" key="GridCell.Tab.0.bottom" timestamp="1583274664772">
+    <state x="538" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1583274721717" />
+    <state width="1419" height="354" key="GridCell.Tab.0.bottom" timestamp="1583274819376">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="303" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583274664772" />
-    <state width="1419" height="303" key="GridCell.Tab.0.center" timestamp="1583274664771">
+    <state width="1419" height="354" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583274819376" />
+    <state width="1419" height="354" key="GridCell.Tab.0.center" timestamp="1583274819375">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="303" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1583274664771" />
-    <state width="1419" height="303" key="GridCell.Tab.0.left" timestamp="1583274664771">
+    <state width="1419" height="354" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1583274819375" />
+    <state width="1419" height="354" key="GridCell.Tab.0.left" timestamp="1583274819375">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="303" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1583274664771" />
-    <state width="1419" height="303" key="GridCell.Tab.0.right" timestamp="1583274664772">
+    <state width="1419" height="354" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1583274819375" />
+    <state width="1419" height="354" key="GridCell.Tab.0.right" timestamp="1583274819376">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="303" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1583274664772" />
-    <state width="1419" height="303" key="GridCell.Tab.1.bottom" timestamp="1583274666900">
+    <state width="1419" height="354" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1583274819376" />
+    <state width="1419" height="354" key="GridCell.Tab.1.bottom" timestamp="1583274819378">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="303" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583274666900" />
-    <state width="1419" height="303" key="GridCell.Tab.1.center" timestamp="1583274666899">
+    <state width="1419" height="354" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583274819378" />
+    <state width="1419" height="354" key="GridCell.Tab.1.center" timestamp="1583274819377">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="303" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1583274666899" />
-    <state width="1419" height="303" key="GridCell.Tab.1.left" timestamp="1583274666898">
+    <state width="1419" height="354" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1583274819377" />
+    <state width="1419" height="354" key="GridCell.Tab.1.left" timestamp="1583274819376">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="303" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1583274666898" />
-    <state width="1419" height="303" key="GridCell.Tab.1.right" timestamp="1583274666900">
+    <state width="1419" height="354" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1583274819376" />
+    <state width="1419" height="354" key="GridCell.Tab.1.right" timestamp="1583274819377">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="303" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1583274666900" />
+    <state width="1419" height="354" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1583274819377" />
     <state x="671" y="167" key="RollbackChangesDialog" timestamp="1583271159637">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -171,5 +175,16 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="689" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1583266572863" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/hw1v2.py</url>
+          <line>27</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
