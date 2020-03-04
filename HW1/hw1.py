@@ -53,19 +53,20 @@ file1.close()
 
 
 # Create a filtered dictionary from train_dict containing only the words with frequency= 1
-new_dict = {key: value for (key, value) in train_dict.items() if value == 1}
+rare_word_dict = {key: value for (key, value) in train_dict.items() if value == 1}
 
 # Iterate through each word in each line of tokenized_train_data and replace the word with token "<unk>" if
 # that word is also found in the new_dict(filtered dictionary based on words with frequency =1)
 for line in tokenized_train_data:
     for i in range(0, len(line)):
-        if line[i] in new_dict:
+        if line[i] in rare_word_dict:
             line[i] = "<unk>"
+
+# Create a filtered dictionary from train_dict containing words the words with frequency> 1
+common_word_dict = {key: value for (key, value) in train_dict.items() if value > 1}
 
 # Iterate through each word in each line of tokenized_train_data and replace it with token "<unk>" if that word is not
 # found in the train_dict (aka training) and increment the number of unknown words
-#
-
 num_new_words = 0
 for line in tokenized_test_data:
     for i in range(0, len(line)):
