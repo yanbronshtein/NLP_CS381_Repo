@@ -36,7 +36,7 @@ tokenized_train_data = []  # List of tokenized training data sentences
 while line := file1.readline():
     tokenized_line = line.split()
     paddedLine = ""
-    paddedLine += "<s>"
+    paddedLine += "<s> "
     for token in tokenized_line:
         word = token.lower()
         if word not in train_dict:
@@ -61,3 +61,16 @@ for line in tokenized_train_data:
     for i in range(0, len(line)):
         if line[i] in new_dict:
             line[i] = "<unk>"
+
+# Iterate through each word in each line of tokenized_train_data and replace it with token "<unk>" if that word is not
+# found in the train_dict (aka training) and increment the number of unknown words
+#
+
+num_new_words = 0
+for line in tokenized_test_data:
+    for i in range(0, len(line)):
+        if line[i] not in train_dict and not(line[i] == "<s>" or line[i] == "</s"):
+            line[i] = "<unk>"
+            num_new_words += 1
+
+print("Hello mofo")
