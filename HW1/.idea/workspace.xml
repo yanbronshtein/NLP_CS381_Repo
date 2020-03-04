@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="" />
+    <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw1.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw1.py" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -26,8 +29,9 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="last.edited.regexp" value=" " />
   </component>
-  <component name="RunManager" selected="Python.hw1v2">
+  <component name="RunManager" selected="Python.hw1">
     <configuration name="hw1" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="HW1" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -70,10 +74,32 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="other" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="HW1" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/other.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.hw1v2" />
         <item itemvalue="Python.hw1" />
+        <item itemvalue="Python.other" />
+        <item itemvalue="Python.hw1v2" />
       </list>
     </recent_temporary>
   </component>
@@ -116,7 +142,14 @@
       <option name="project" value="LOCAL" />
       <updated>1583274721886</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Simplified code to avoid creating extra file">
+      <created>1583274828248</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1583274828248</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -127,46 +160,50 @@
     <option name="LAST_COMMIT_MESSAGE" value="Simplified code to avoid creating extra file" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="538" y="55" key="CommitChangelistDialog2" timestamp="1583274721717">
+    <state x="538" y="55" key="CommitChangelistDialog2" timestamp="1583274828113">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="538" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1583274721717" />
-    <state width="1419" height="354" key="GridCell.Tab.0.bottom" timestamp="1583274819376">
+    <state x="538" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1583274828113" />
+    <state width="1419" height="479" key="GridCell.Tab.0.bottom" timestamp="1583290018205">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="354" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583274819376" />
-    <state width="1419" height="354" key="GridCell.Tab.0.center" timestamp="1583274819375">
+    <state width="1419" height="479" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583290018205" />
+    <state width="1419" height="479" key="GridCell.Tab.0.center" timestamp="1583290018204">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="354" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1583274819375" />
-    <state width="1419" height="354" key="GridCell.Tab.0.left" timestamp="1583274819375">
+    <state width="1419" height="479" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1583290018204" />
+    <state width="1419" height="479" key="GridCell.Tab.0.left" timestamp="1583290018203">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="354" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1583274819375" />
-    <state width="1419" height="354" key="GridCell.Tab.0.right" timestamp="1583274819376">
+    <state width="1419" height="479" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1583290018203" />
+    <state width="1419" height="479" key="GridCell.Tab.0.right" timestamp="1583290018204">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="354" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1583274819376" />
-    <state width="1419" height="354" key="GridCell.Tab.1.bottom" timestamp="1583274819378">
+    <state width="1419" height="479" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1583290018204" />
+    <state width="1419" height="479" key="GridCell.Tab.1.bottom" timestamp="1583290018207">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="354" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583274819378" />
-    <state width="1419" height="354" key="GridCell.Tab.1.center" timestamp="1583274819377">
+    <state width="1419" height="479" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1583290018207" />
+    <state width="1419" height="479" key="GridCell.Tab.1.center" timestamp="1583290018206">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="354" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1583274819377" />
-    <state width="1419" height="354" key="GridCell.Tab.1.left" timestamp="1583274819376">
+    <state width="1419" height="479" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1583290018206" />
+    <state width="1419" height="479" key="GridCell.Tab.1.left" timestamp="1583290018206">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="354" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1583274819376" />
-    <state width="1419" height="354" key="GridCell.Tab.1.right" timestamp="1583274819377">
+    <state width="1419" height="479" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1583290018206" />
+    <state width="1419" height="479" key="GridCell.Tab.1.right" timestamp="1583290018207">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="354" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1583274819377" />
-    <state x="671" y="167" key="RollbackChangesDialog" timestamp="1583271159637">
+    <state width="1419" height="479" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1583290018207" />
+    <state x="671" y="167" key="RollbackChangesDialog" timestamp="1583276995731">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="671" y="167" key="RollbackChangesDialog/0.0.1440.900@0.0.1440.900" timestamp="1583271159637" />
+    <state x="671" y="167" key="RollbackChangesDialog/0.0.1440.900@0.0.1440.900" timestamp="1583276995731" />
+    <state width="720" height="450" key="XDebugger.FullValuePopup" timestamp="1583289867248">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="720" height="450" key="XDebugger.FullValuePopup/0.0.1440.900@0.0.1440.900" timestamp="1583289867248" />
     <state x="374" y="284" key="com.intellij.ide.util.TipDialog" timestamp="1583271929257">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -183,6 +220,11 @@
           <url>file://$PROJECT_DIR$/hw1v2.py</url>
           <line>27</line>
           <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/hw1.py</url>
+          <line>37</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
