@@ -1,29 +1,17 @@
-
 # Source paths of train.txt and test.txt
 
 path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"
 
 # sources = [path + "/test.txt", path + "/train.txt"] //todo: change back to original nigga
-sources = [path + "/test_small.txt", path + "/train_small.txt"]
+sources = [path + "/train_small.txt", path + "/test_small.txt"]
+
 
 # Extract data from train.txt and store in tokenized_train_data
-file1 = open(sources[1], 'r')
 
 
 # This function is used to pre-process both the
 def pre_process_data(file_path):
-    # tokenized_padded_data = []
-    # file = open(file_path, 'r')
-    # while line := file.readline():
-    #     line = line.strip().lower()
-    #     tokenized_line = line.split()  # remove hidden characters, lower each word in the
-    #     # line, and tokenize by spaces
-    #     tokenized_line.insert(0, '<s>')  # Prepend start symbol
-    #     tokenized_line.insert(len(tokenized_line), '<s>')  # Append stop symbol
-    #     tokenized_padded_data.append(tokenized_line)
-    # return tokenized_padded_data
     tokenized_padded_data = []
-
     with open(file_path) as file:
         for line in file:
             line = line.strip()
@@ -31,17 +19,37 @@ def pre_process_data(file_path):
                 line = line.lower()
                 tokenized_line = line.split()
                 tokenized_line.insert(0, '<s>')  # Prepend start symbol
-                tokenized_line.insert(len(tokenized_line), '<s>')  # Append stop symbol
+                tokenized_line.insert(len(tokenized_line), '</s>')  # Append stop symbol
                 tokenized_padded_data.append(tokenized_line)
+    file.close()
 
     return tokenized_padded_data
 
 
+tokenized_train_data = pre_process_data(sources[0])
+tokenized_test_data = pre_process_data(sources[0])
 
-pre_process_data(sources[1])
+
+def count_unique_word_tokens(tokenized_train_data, tokenized_test_data):
+    data_dict = {}
+    for line in tokenized_train_data:
+        for word in line:
+            data_dict[word] = 1 if word not in data_dict else data_dict[word] + 1
+    print("Hi")
 
 
+count_unique_word_tokens(tokenized_train_data,tokenized_test_data)
 
+def count_total_word_tokens(tokenized_data):
+    token_count = 0
+    for line in tokenized_data:
+        token_count += len(line)
+    return token_count
+
+
+total_word_count_training = count_total_word_tokens(tokenized_train_data)
+
+print("Q2: How many word tokens are there in the training corpus?\n" + str(total_word_count_training))
 
 # total_num_tokens = 0
 # while line := file1.readline():
