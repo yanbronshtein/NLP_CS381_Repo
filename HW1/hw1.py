@@ -9,8 +9,8 @@ sources = [path + "/train_small.txt", path + "/test_small.txt"]
 # Extract data from train.txt and store in tokenized_train_data
 
 
-# This function is used to pre-process both the
-def pre_process_data(file_path):
+# This function is used to tokenize and path data read from train.txt and test.txt
+def pad_and_tokenize_file_data(file_path):
     tokenized_padded_data = []
     with open(file_path) as file:
         for line in file:
@@ -22,34 +22,70 @@ def pre_process_data(file_path):
                 tokenized_line.insert(len(tokenized_line), '</s>')  # Append stop symbol
                 tokenized_padded_data.append(tokenized_line)
     file.close()
-
     return tokenized_padded_data
 
-
-tokenized_train_data = pre_process_data(sources[0])
-tokenized_test_data = pre_process_data(sources[0])
-
-
-def count_unique_word_tokens(tokenized_train_data, tokenized_test_data):
+def pre_process_train_data(file_path):
+    tokenized_train_data = pad_and_tokenize_file_data(file_path)
     data_dict = {}
     for line in tokenized_train_data:
         for word in line:
             data_dict[word] = 1 if word not in data_dict else data_dict[word] + 1
-    print("Hi")
+
+    rare_words_dict = {key: value for (key, value) in data_dict.items() if value == 1 and value != "<s>" and value !=
+                       "</s>"}  # rare_words_dict contains only those words that are not start or end symbols that 
+    # appear only once in training
+    # those words that appear once in training
+
+    # Replace each word in tokenized_train_data with <unk> if it only appears once in rare_words_dict 
+    for line in tokenized_train_data:
+        for i in range(0, len(line)):
+            if line[i] in rare_words_dict:
+                line[i] = "<unk>"
+
+    return tokenized_train_data
 
 
-count_unique_word_tokens(tokenized_train_data,tokenized_test_data)
-
-def count_total_word_tokens(tokenized_data):
-    token_count = 0
-    for line in tokenized_data:
-        token_count += len(line)
-    return token_count
+processed_train_data = pre_process_train_data(sources[0])
 
 
-total_word_count_training = count_total_word_tokens(tokenized_train_data)
 
-print("Q2: How many word tokens are there in the training corpus?\n" + str(total_word_count_training))
+
+
+
+
+# def count_unique_word_tokens(tokenized_train_data, tokenized_test_data):
+#     # data_dict = {}
+#     # for line in tokenized_train_data:
+#     #     for word in line:
+#     #         data_dict[word] = 1 if word not in data_dict else data_dict[word] + 1
+#     #
+#     # rare_words_dict = {key: value for (key, value) in data_dict.items() if value == 1 and value != "<s>" and value !=
+#     #                    "</s>"}  # rare_words_dict contains only those words that are not start or end symbols that
+#     # # appear only once in training
+#     # # those words that appear once in training
+#     #
+#     # # Replace each word in tokenized_train_data with <unk> if it only appears once in rare_words_dict
+#     # for line in tokenized_train_data:
+#     #     for i in range(0, len(line)):
+#     #         if line[i] in rare_words_dict:
+#     #             line[i] = "<unk>"
+#
+#
+#     print("Hi")
+#
+#
+# count_unique_word_tokens(tokenized_train_data,tokenized_test_data)
+#
+# def count_total_word_tokens(tokenized_data):
+#     token_count = 0
+#     for line in tokenized_data:
+#         token_count += len(line)
+#     return token_count
+#
+#
+# total_word_count_training = count_total_word_tokens(tokenized_train_data)
+#
+# print("Q2: How many word tokens are there in the training corpus?\n" + str(total_word_count_training))
 
 # total_num_tokens = 0
 # while line := file1.readline():
