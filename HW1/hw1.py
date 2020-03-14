@@ -24,14 +24,15 @@ def pad_and_tokenize_file_data(file_path):
     file.close()
     return tokenized_padded_data
 
+train_data_dict = {}
 def pre_process_train_data(file_path):
     tokenized_train_data = pad_and_tokenize_file_data(file_path)
-    data_dict = {}
+    # data_dict = {}
     for line in tokenized_train_data:
         for word in line:
-            data_dict[word] = 1 if word not in data_dict else data_dict[word] + 1
+            train_data_dict[word] = 1 if word not in train_data_dict else train_data_dict[word] + 1
 
-    rare_words_dict = {key: value for (key, value) in data_dict.items() if value == 1 and value != "<s>" and value !=
+    rare_words_dict = {key: value for (key, value) in train_data_dict.items() if value == 1 and value != "<s>" and value !=
                        "</s>"}  # rare_words_dict contains only those words that are not start or end symbols that 
     # appear only once in training
     # those words that appear once in training
@@ -45,8 +46,20 @@ def pre_process_train_data(file_path):
     return tokenized_train_data
 
 
-processed_train_data = pre_process_train_data(sources[0])
+def pre_process_test_data(file_path):
+    tokenized_test_data = pad_and_tokenize_file_data(file_path)
 
+    # Replace each word in tokenized_test_data with "<unk>" if it does not appear in testing
+    for line in tokenized_test_data:
+        for i in range(0, len(line)):
+            if line[i] not in train_data_dict:
+                line[i] = "<unk>"
+
+    return tokenized_test_data
+
+
+processed_train_data = pre_process_train_data(sources[0])
+processed_test_data = pre_process_train_data(sources[0])
 
 
 
