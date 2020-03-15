@@ -64,16 +64,19 @@ def count_tokens(tokenized_data):
     return token_count
 
 
-print("Q2:How many word tokens are there in the training corpus?\n" + str(count_tokens(tokenized_train_data_after_unk)))
+total_train_token_count = count_tokens(tokenized_train_data_after_unk)
+print("Q2:How many word tokens are there in the training corpus?\n" + str(total_train_token_count))
 
 tokenized_test_data_before_unk = pad_and_tokenize_file_data(sources[1])
 test_dict_before_unk = populate_dict(tokenized_test_data_before_unk)
 tokenized_test_data_after_unk = copy.deepcopy(tokenized_test_data_before_unk)
+for line in tokenized_test_data_after_unk:
+    for i in range(0, len(line)):
+        if line[i] not in train_data_dict_before_unk:
+            line[i] = "<unk>"
+
 
 test_dict_after_unk = populate_dict(tokenized_test_data_after_unk)
-
-
-
 print("Q3: What percentage of word tokens and word types in the test corpus did not occur in training\n"
       " (before you mapped the unknown words to <unk> in training and test data)? \n"
       "Please include the padding symbols in your calculations.")
@@ -102,27 +105,28 @@ print("Q4: Now replace singletons in the training data with <unk> symbol and map
       "corpus did not occur in training (treat <unk> as a regular token that has been observed).")
 
 
+# This function is used to train the unigram model after "<unk>" is inserted
+def train_unigram_mle():
+    unigram_model = copy.deepcopy(train_data_dict_after_unk)
 
-# def train_unigram_mle():
-#     unigram_model = copy.deepcopy(train_data_dict_before_unk)
-#
-#     for word in unigram_model:
-#         unigram_model[word] = unigram_model[word] / total_word_count_training
-#
-#     return unigram_model
-#
+    for word in unigram_model:
+        unigram_model[word] = unigram_model[word] / total_train_token_count
 
-# unigram_model = train_unigram_mle()
+    return unigram_model
+
+
+unigram_model = train_unigram_mle()
+print("Hi")
 # test_dict_after_unk care about this
 # train_data_dict_after_unk care about this
 
 # appear only once in training
 # those words that appear once in training
 
-# def train_bigram_mle():
-#     bigram_model = copy.deepcopy(train_data_dict_before_unk)
-#
-#     for word in unigram_model:
-#         unigram_model[word] = unigram_model[word] / total_word_count_training
-#
-#     return unigram_model
+def train_bigram_mle():
+    bigram_model = copy.deepcopy(train_data_dict_before_unk)
+
+    for word in unigram_model:
+        unigram_model[word] = unigram_model[word] / total_word_count_training
+
+    return unigram_model
