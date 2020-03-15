@@ -48,6 +48,9 @@ for line in tokenized_train_data_after_unk:
             line[i] = "<unk>"
 
 train_data_dict_after_unk = populate_dict(tokenized_train_data_after_unk)
+print("Q1: HHow many word types (unique words) are there in the training corpus?\n "
+      "Please include the padding symbols and the unknown token.\n" + str(len(train_data_dict_after_unk)))
+
 token_count = 0
 for line in tokenized_train_data_after_unk:
     token_count += len(line)
