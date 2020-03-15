@@ -4,8 +4,6 @@
     <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw1.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw1.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test_small.txt" beforeDir="false" afterPath="$PROJECT_DIR$/test_small.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train_small.txt" beforeDir="false" afterPath="$PROJECT_DIR$/train_small.txt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -250,7 +248,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584244062013</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Finished Q1, Q2, and Q3">
+      <created>1584300185498</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1584300185498</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -272,39 +277,40 @@
     <MESSAGE value="Got unigram model to work" />
     <MESSAGE value="Made code ugly but working" />
     <MESSAGE value="Finished Q1 and Q2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Finished Q1 and Q2" />
+    <MESSAGE value="Finished Q1, Q2, and Q3" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished Q1, Q2, and Q3" />
   </component>
   <component name="WindowStateProjectService">
     <state x="483" y="163" key="#xdebugger.evaluate" timestamp="1583345831255">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="483" y="163" key="#xdebugger.evaluate/0.0.1440.900@0.0.1440.900" timestamp="1583345831255" />
-    <state x="391" y="57" key="CommitChangelistDialog2" timestamp="1584244061877">
+    <state x="391" y="57" key="CommitChangelistDialog2" timestamp="1584300185377">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="391" y="57" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1584244061877" />
-    <state width="627" height="394" key="GridCell.Tab.0.bottom" timestamp="1584300054251">
+    <state x="391" y="57" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1584300185377" />
+    <state width="703" height="232" key="GridCell.Tab.0.bottom" timestamp="1584302170683">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="627" height="394" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584300054251" />
+    <state width="703" height="232" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584302170683" />
     <state width="1230" height="380" key="GridCell.Tab.0.bottom/0.23.1440.760@0.23.1440.760" timestamp="1584047772734" />
     <state width="709" height="116" key="GridCell.Tab.0.bottom/0.23.1440.792@0.23.1440.792" timestamp="1583460682086" />
-    <state width="627" height="394" key="GridCell.Tab.0.center" timestamp="1584300054250">
+    <state width="703" height="232" key="GridCell.Tab.0.center" timestamp="1584302170681">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="627" height="394" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584300054250" />
+    <state width="703" height="232" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584302170681" />
     <state width="1230" height="380" key="GridCell.Tab.0.center/0.23.1440.760@0.23.1440.760" timestamp="1584047772733" />
     <state width="709" height="116" key="GridCell.Tab.0.center/0.23.1440.792@0.23.1440.792" timestamp="1583460682085" />
-    <state width="627" height="394" key="GridCell.Tab.0.left" timestamp="1584300054250">
+    <state width="703" height="232" key="GridCell.Tab.0.left" timestamp="1584302170680">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="627" height="394" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584300054250" />
+    <state width="703" height="232" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584302170680" />
     <state width="1230" height="380" key="GridCell.Tab.0.left/0.23.1440.760@0.23.1440.760" timestamp="1584047772733" />
     <state width="709" height="116" key="GridCell.Tab.0.left/0.23.1440.792@0.23.1440.792" timestamp="1583460682085" />
-    <state width="627" height="394" key="GridCell.Tab.0.right" timestamp="1584300054251">
+    <state width="703" height="232" key="GridCell.Tab.0.right" timestamp="1584302170682">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="627" height="394" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584300054251" />
+    <state width="703" height="232" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584302170682" />
     <state width="1230" height="380" key="GridCell.Tab.0.right/0.23.1440.760@0.23.1440.760" timestamp="1584047772734" />
     <state width="709" height="116" key="GridCell.Tab.0.right/0.23.1440.792@0.23.1440.792" timestamp="1583460682085" />
     <state width="627" height="394" key="GridCell.Tab.1.bottom" timestamp="1584300054253">
@@ -364,11 +370,6 @@
           <url>file://$PROJECT_DIR$/hw1v2.py</url>
           <line>86</line>
           <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/hw1.py</url>
-          <line>78</line>
-          <option name="timeStamp" value="36" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

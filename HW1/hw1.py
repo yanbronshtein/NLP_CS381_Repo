@@ -96,7 +96,6 @@ print("Q3: What percentage of word tokens and word types in the test corpus did 
 # percentage_word_tokens in testing not found in training = total_unks_testing_/total_testing_tokens
 
 total_test_token_count = count_tokens(tokenized_test_data_before_unk)
-newDict = {key: value for (key, value) in test_dict_after_unk.items() if key == "<unk>"}
 
 
 
@@ -104,7 +103,26 @@ newDict = {key: value for (key, value) in test_dict_after_unk.items() if key == 
 print("unk_count_testing: " + str(unk_count_testing) + "\n")
 percent_word_tokens_testing = (unk_count_testing / total_test_token_count) * 100
 print("a). Percentage of word tokens in test corpus not in training \n" + str(unk_count_testing) + "/" +
-      str(total_test_token_count) + "\n" + str(percent_word_tokens_testing) + "%\n")
+      str(total_test_token_count) + " OR \n" + str(percent_word_tokens_testing) + "%\n")
+
+
+
+total_unique_test_token_count = len(test_dict_before_unk)  #Length of test corpus is the number of unique tokens
+# found in testing before replacement(test_dict_before_unk) with <unk> for words found in testing but not in training
+newDict = {key: value for (key, value) in test_dict_after_unk.items() if key == "<unk>"}
+unk_count_testing_dict = len(newDict)  #The length of newDict gives the number of <unk> tokens found in testing
+
+percent_word_tokens_testing = (test_dict_after_unk["<unk>"] / total_unique_test_token_count) * 100
+
+print("b). Percentage of word types in test corpus that did not occur in training \n" +
+      str(test_dict_after_unk["<unk>"]) + "/" + str(total_unique_test_token_count) +
+      " OR \n" + str(percent_word_tokens_testing) + "%\n")
+
+
+
+print("Q3: Now replace singletons in the training data with <unk> symbol and map words (in the test corpus)\n "
+      "not observed in training to <unk>. \n What percentage of bigrams (bigram types and bigram tokens) in the test "
+      "corpus did not occur in training (treat <unk> as a regular token that has been observed).")
 
 
 # appear only once in training
