@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="Added extra padding and reading from file function">
+    <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/../Chap2/.idea/Chap2.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/yanivbronshtein.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw1.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw1.py" afterDir="false" />
     </list>
@@ -29,6 +31,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last.edited.regexp" value=" " />
   </component>
   <component name="RunManager" selected="Python.hw1">
@@ -219,7 +222,14 @@
       <option name="project" value="LOCAL" />
       <updated>1584229785207</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Added processing for both train and text data">
+      <created>1584230171587</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1584230171587</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -237,66 +247,67 @@
     <MESSAGE value="Successfully created function pre-process" />
     <MESSAGE value="Succesfully created count_total_word_tokens and count_unique_word_tokens" />
     <MESSAGE value="Added extra padding and reading from file function" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added extra padding and reading from file function" />
+    <MESSAGE value="Added processing for both train and text data" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added processing for both train and text data" />
   </component>
   <component name="WindowStateProjectService">
     <state x="483" y="163" key="#xdebugger.evaluate" timestamp="1583345831255">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="483" y="163" key="#xdebugger.evaluate/0.0.1440.900@0.0.1440.900" timestamp="1583345831255" />
-    <state x="391" y="57" key="CommitChangelistDialog2" timestamp="1584229891326">
+    <state x="391" y="57" key="CommitChangelistDialog2" timestamp="1584230171453">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="391" y="57" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1584229891326" />
-    <state width="861" height="273" key="GridCell.Tab.0.bottom" timestamp="1584229809059">
+    <state x="391" y="57" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1584230171453" />
+    <state width="1195" height="315" key="GridCell.Tab.0.bottom" timestamp="1584235631379">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="861" height="273" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584229809059" />
+    <state width="1195" height="315" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584235631379" />
     <state width="1230" height="380" key="GridCell.Tab.0.bottom/0.23.1440.760@0.23.1440.760" timestamp="1584047772734" />
     <state width="709" height="116" key="GridCell.Tab.0.bottom/0.23.1440.792@0.23.1440.792" timestamp="1583460682086" />
-    <state width="861" height="273" key="GridCell.Tab.0.center" timestamp="1584229809056">
+    <state width="1195" height="315" key="GridCell.Tab.0.center" timestamp="1584235631376">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="861" height="273" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584229809056" />
+    <state width="1195" height="315" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584235631376" />
     <state width="1230" height="380" key="GridCell.Tab.0.center/0.23.1440.760@0.23.1440.760" timestamp="1584047772733" />
     <state width="709" height="116" key="GridCell.Tab.0.center/0.23.1440.792@0.23.1440.792" timestamp="1583460682085" />
-    <state width="861" height="273" key="GridCell.Tab.0.left" timestamp="1584229809055">
+    <state width="1195" height="315" key="GridCell.Tab.0.left" timestamp="1584235631373">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="861" height="273" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584229809055" />
+    <state width="1195" height="315" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584235631373" />
     <state width="1230" height="380" key="GridCell.Tab.0.left/0.23.1440.760@0.23.1440.760" timestamp="1584047772733" />
     <state width="709" height="116" key="GridCell.Tab.0.left/0.23.1440.792@0.23.1440.792" timestamp="1583460682085" />
-    <state width="861" height="273" key="GridCell.Tab.0.right" timestamp="1584229809057">
+    <state width="1195" height="315" key="GridCell.Tab.0.right" timestamp="1584235631378">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="861" height="273" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584229809057" />
+    <state width="1195" height="315" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584235631378" />
     <state width="1230" height="380" key="GridCell.Tab.0.right/0.23.1440.760@0.23.1440.760" timestamp="1584047772734" />
     <state width="709" height="116" key="GridCell.Tab.0.right/0.23.1440.792@0.23.1440.792" timestamp="1583460682085" />
-    <state width="861" height="273" key="GridCell.Tab.1.bottom" timestamp="1584229809725">
+    <state width="1195" height="315" key="GridCell.Tab.1.bottom" timestamp="1584235631383">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="861" height="273" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584229809725" />
+    <state width="1195" height="315" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584235631383" />
     <state width="1230" height="380" key="GridCell.Tab.1.bottom/0.23.1440.760@0.23.1440.760" timestamp="1584047772736" />
     <state width="1419" height="278" key="GridCell.Tab.1.bottom/0.23.1440.792@0.23.1440.792" timestamp="1583460682053" />
     <state width="1419" height="255" key="GridCell.Tab.1.bottom/0.23.1440.798@0.23.1440.798" timestamp="1583298754755" />
-    <state width="861" height="273" key="GridCell.Tab.1.center" timestamp="1584229809724">
+    <state width="1195" height="315" key="GridCell.Tab.1.center" timestamp="1584235631381">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="861" height="273" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1584229809724" />
+    <state width="1195" height="315" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1584235631381" />
     <state width="1230" height="380" key="GridCell.Tab.1.center/0.23.1440.760@0.23.1440.760" timestamp="1584047772735" />
     <state width="1419" height="278" key="GridCell.Tab.1.center/0.23.1440.792@0.23.1440.792" timestamp="1583460682052" />
     <state width="1419" height="255" key="GridCell.Tab.1.center/0.23.1440.798@0.23.1440.798" timestamp="1583298754754" />
-    <state width="861" height="273" key="GridCell.Tab.1.left" timestamp="1584229809723">
+    <state width="1195" height="315" key="GridCell.Tab.1.left" timestamp="1584235631380">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="861" height="273" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1584229809723" />
+    <state width="1195" height="315" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1584235631380" />
     <state width="1230" height="380" key="GridCell.Tab.1.left/0.23.1440.760@0.23.1440.760" timestamp="1584047772735" />
     <state width="1419" height="278" key="GridCell.Tab.1.left/0.23.1440.792@0.23.1440.792" timestamp="1583460682052" />
     <state width="1419" height="255" key="GridCell.Tab.1.left/0.23.1440.798@0.23.1440.798" timestamp="1583298754753" />
-    <state width="861" height="273" key="GridCell.Tab.1.right" timestamp="1584229809724">
+    <state width="1195" height="315" key="GridCell.Tab.1.right" timestamp="1584235631381">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="861" height="273" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1584229809724" />
+    <state width="1195" height="315" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1584235631381" />
     <state width="1230" height="380" key="GridCell.Tab.1.right/0.23.1440.760@0.23.1440.760" timestamp="1584047772736" />
     <state width="1419" height="278" key="GridCell.Tab.1.right/0.23.1440.792@0.23.1440.792" timestamp="1583460682052" />
     <state width="1419" height="255" key="GridCell.Tab.1.right/0.23.1440.798@0.23.1440.798" timestamp="1583298754755" />
@@ -332,8 +343,8 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/hw1.py</url>
-          <line>86</line>
-          <option name="timeStamp" value="8" />
+          <line>106</line>
+          <option name="timeStamp" value="20" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>
