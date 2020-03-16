@@ -4,10 +4,10 @@ import copy
 
 path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"  # todo: Use relative path instead
 
-# sources = [path + "/train.txt", path + "/test.txt"]  # todo: change back to original man
+sources = [path + "/train.txt", path + "/test.txt"]  # todo: change back to original man
 
 
-sources = [path + "/train_small.txt", path + "/test_small.txt"]
+# sources = [path + "/train_small.txt", path + "/test_small.txt"]
 
 
 # This function is used to tokenize and pad data read from train.txt and test.txt
@@ -38,7 +38,7 @@ def populate_dict(tokenized_data):
 
 # This function parses tokenized data(array of tokenized lines) and counts the number of tokens in each line, and
 # adds to the total token count
-def count_tokens(tokenized_data):
+def count_tokens_old(tokenized_data):
     token_count = 0
     for sentence in tokenized_data:
         token_count += len(sentence)
@@ -80,9 +80,15 @@ def train_unigram_mle(tokenized_train_data, total_train_token_count):
 # total_number_of_bigrams_before_unk = 0
 def create_bigram_count_dict(tokenized_data):
     count_dict = {}
+
+    loop_count = 0
     for sentence in tokenized_data:
         for i in range(0, len(sentence) - 1):
-            bigram_key = sentence[i] + "," + sentence[i + 1]
+            bigram_key = sentence[i] + " " + sentence[i + 1]
+            if len(sentence[i]) == 0:
+                print("sentence i is fucked\n")
+            if len(sentence[i+1]) == 0:
+                print("sentence i+1 is fucked\n")
             count_dict[bigram_key] = 1 if bigram_key not in count_dict else count_dict[bigram_key] + 1
     return count_dict
 
@@ -90,24 +96,26 @@ def create_bigram_count_dict(tokenized_data):
 # Make bigram dictionary
 def train_bigram_mle(tokenized_data, train_data_dict):
     model = create_bigram_count_dict(tokenized_data)
-    total_number_of_bigrams = 0
-
-    # for sentence in tokenized_train_data_before_unk:
-    #     for i in range(0, len(sentence)-1):
-    #         bigram_key = sentence[i] + "," + sentence[i + 1]
-    #         model[bigram_key] = 1 if bigram_key not in model else model[bigram_key] + 1
-    #         total_number_of_bigrams += 1
-
     # Assign bigram probabilities
+    k = 0
     for word in model:
         # Split by comma
-        words = word.split(",")  # Get Wi-1 and Wi
-        # count(Wi-1, Wi) / count(Wi-1)
-        # print("My word:[" + word + "]" + str(type(word)) + "\n")
-        # print("words[0]:[" + words[0] + "]" + str(type(words[0])) + "\n")
+        words = word.split()  # Get Wi-1 and Wi
+        print("******k is: " + str(k) + " words are: " + str(words[0]) + " len: " + str(len(words[0])) + " and " +
+              str(words[1]) + " len: " + str(len(words[1])) + " word is:" + word + "******\n")
 
-        model[word] /= train_data_dict[words[0]]
+        if len(words[0]) != 0 and len(words[1]) != 0:
+            model[word] /= train_data_dict[words[0]]
+        k += 1
+
     return model
+
+
+def count_tokens(data_dict):
+    count = 0
+    for word in data_dict:
+        count += data_dict[word]
+    return count
 
 
 def main():
@@ -123,34 +131,31 @@ def main():
 
     test_dict_before_unk = populate_dict(tokenized_test_data_before_unk)
 
-    total_train_token_count_before_unk = count_tokens(tokenized_train_data_before_unk)
-
-    total_train_token_count_after_unk = count_tokens(tokenized_train_data_before_unk)
+    total_train_token_count_after_unk = count_tokens(train_data_dict_after_unk)
 
     tokenized_test_data_after_unk = replace_singleton_with_unk_test(tokenized_test_data_before_unk, train_data_dict_before_unk)
 
     test_dict_after_unk = populate_dict(tokenized_test_data_after_unk)
 
-    total_test_token_count = count_tokens(tokenized_test_data_before_unk)  # Calculate the number of tokens in test data
+    total_test_token_count_before_unk = count_tokens(test_dict_before_unk)  # Calculate the number of tokens in test data
 
-    percent_word_tokens_testing = (test_dict_after_unk[
-                                       "<unk>"] / total_test_token_count) * 100  # The numerator gives the
-    # count of "<unk>" in the test data
-    # cleaned data after "<unk>" modification
-
-    total_unique_test_token_count = len(test_dict_before_unk)  # Length of test corpus is the number of unique tokens
+    unique_test_token_count = len(test_dict_before_unk)  # Length of test corpus is the number of unique tokens
     # found in testing before replacement(test_dict_before_unk) with <unk> for words found in testing but not in training
 
-    percent_word_tokens_testing = (test_dict_after_unk["<unk>"] / total_unique_test_token_count) * 100  # The numerator
+    percent_word_tokens_testing = (test_dict_after_unk["<unk>"] / unique_test_token_count) * 100  # The numerator
     # should be the same as with part a
 
-    unigram_model_before_unk = train_unigram_mle(tokenized_train_data_before_unk, tokenized_train_data_before_unk)
+    # unigram_model_before_unk = train_unigram_mle(tokenized_train_data_before_unk, tokenized_train_data_before_unk)
+    #
+    # unigram_model_after_unk = train_unigram_mle(tokenized_train_data_after_unk, tokenized_train_data_before_unk)
 
-    unigram_model_after_unk = train_unigram_mle(tokenized_train_data_after_unk, tokenized_train_data_before_unk)
-
-    bigram_model_before_unk = train_bigram_mle(tokenized_train_data_before_unk, train_data_dict_before_unk)
+    # bigram_model_before_unk = train_bigram_mle(tokenized_train_data_before_unk, train_data_dict_before_unk)
 
     bigram_model_after_unk = train_bigram_mle(tokenized_train_data_after_unk, train_data_dict_after_unk)
+
+    # total_bigram_count_after_unk = count_tokens(bigram_model_after_unk)
+    #
+    # unique_bigram_count_after_unk = len(bigram_model_after_unk)
 
     print("Q1: How many word types (unique words) are there in the training corpus?\n "
           "Please include the padding symbols and the unknown token.\n" + str(len(train_data_dict_after_unk)))
@@ -162,16 +167,19 @@ def main():
           "Please include the padding symbols in your calculations.")
 
     print("a). Percentage of word tokens in test corpus not in training \n" + str(test_dict_after_unk["<unk>"]) + "/" +
-          str(total_test_token_count) + " OR \n" + str(percent_word_tokens_testing) + "%\n")
+          str(total_test_token_count_before_unk) + " OR \n" + str(percent_word_tokens_testing) + "%\n")
 
     print("b). Percentage of word types in test corpus that did not occur in training \n" +
-          str(test_dict_after_unk["<unk>"]) + "/" + str(total_unique_test_token_count) +
+          str(test_dict_after_unk["<unk>"]) + "/" + str(unique_test_token_count) +
           " OR \n" + str(percent_word_tokens_testing) + "%\n")
 
     print("Q4: Now replace singletons in the training data with <unk> symbol and map words (in the test corpus)\n "
-          "not observed in training to <unk>. \n What percentage of bigrams (bigram types and bigram tokens) in the test "
+          "not observed in training to <unk>. \n What percentage of bigrams (bigram types and bigram tokens) "
+          "in the test "
           "corpus did not occur in training (treat <unk> as a regular token that has been observed).")
 
+    print("a). Percentage of bigram tokens in the test corpus that did not occur in training \n " +
+          str(1))
 
 if __name__ == "__main__":
     main()
