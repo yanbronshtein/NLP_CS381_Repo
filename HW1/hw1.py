@@ -1,4 +1,5 @@
 import copy
+import math
 
 # Source paths of train.txt and test.txt
 
@@ -93,20 +94,23 @@ def create_bigram_count_dict(tokenized_data):
 def get_bigram_mle(tokenized_data, data_dict):
     model = create_bigram_count_dict(tokenized_data)
     # Assign bigram probabilities
-    k = 0
     for word in model:
         # Split by comma
         words = word.split()  # Get Wi-1 and Wi
         # print("******k is: " + str(k) + " words are: " + str(words[0]) + " len: " + str(len(words[0])) + " and " +
         #       str(words[1]) + " len: " + str(len(words[1])) + " word is:" + word + "******\n")
 
-        if len(words[0]) != 0 and len(words[1]) != 0:
-            model[word] /= data_dict[words[0]]
-        k += 1
-
+        # if len(words[0]) != 0 and len(words[1]) != 0:
+        model[word] /= data_dict[words[0]]
     return model
 
 
+def get_bigram_add_one_smoothing(tokenized_data, data_dict):
+    model = create_bigram_count_dict(tokenized_data)
+    for word in model:
+        words = word.split()
+        model[word] = (model[word] + 1) / (data_dict[words[0]] + len(model))
+    return model
 
 
 def count_tokens(data_dict):
@@ -127,6 +131,10 @@ def filter_test_bigram(train_bigram_counts, test_bigram_counts):
             unknown_test_bigram[word] = test_bigram_counts[word]
 
     return unknown_test_bigram
+
+
+# def compute_log_probabilities_unigram(unigram):
+
 
 
 
@@ -170,11 +178,7 @@ def main():
     train_bigram_counts = create_bigram_count_dict(tokenized_train_data_after_unk)
     test_bigram_counts = create_bigram_count_dict(tokenized_test_data_after_unk)
 
-
     filtered_test_bigram = filter_test_bigram(train_bigram_counts, test_bigram_counts)
-
-
-
 
     # total_bigram_count_after_unk = count_tokens(bigram_model_after_unk)
     #
@@ -204,6 +208,17 @@ def main():
     print("a). Percentage of bigram tokens in the test corpus that did not occur in training \n " +
           str(count_tokens(filtered_test_bigram)) + "/" + str(count_tokens(test_bigram_counts)) +
           " OR \n" + str((count_tokens(filtered_test_bigram) / count_tokens(test_bigram_counts)) * 100) + "%\n")
+
+    print("b). Percentage of bigram types in the test corpus that did not occur in training \n " +
+          str(len(filtered_test_bigram)) + "/" + str(len(test_bigram_counts)) +
+          " OR \n" + str((len(filtered_test_bigram) / len(test_bigram_counts)) * 100) + "%\n")
+
+    print("Q5: Compute the log probability of the following sentence under the three models (ignore capitalization\n"
+          " and pad each sentence as described above). Please list all of the param- eters required to compute the\n"
+          " probabilities and show the complete calculation. Which of the parameters have zero values under each model?\n "
+          "Use log base 2 in your calcula- tions. Map words not observed in the training corpus to the <unk> token.\n"
+          "I look forward to hearing your reply.\n")
+
 
 if __name__ == "__main__":
     main()

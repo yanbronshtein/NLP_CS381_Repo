@@ -4,6 +4,7 @@
     <list default="true" id="65ef9892-858b-49ea-af04-60461e3d9e63" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hw1.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw1.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hw1v2.py" beforeDir="false" afterPath="$PROJECT_DIR$/hw1v2.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -298,11 +299,17 @@
       <option name="project" value="LOCAL" />
       <updated>1584399790428</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Finished Question 4">
+      <created>1584403414256</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1584403414256</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Created code allowing user to specify working directory to deal with file copies" />
     <MESSAGE value="Created file copies but gonna change it cause useless" />
     <MESSAGE value="Cleaned data by adding start and end tags to each sentence in file" />
     <MESSAGE value="Simplified code to avoid creating extra file" />
@@ -327,39 +334,40 @@
     <MESSAGE value="Working bigram training" />
     <MESSAGE value="Made everything into functions and added main function" />
     <MESSAGE value="Fixed key bug" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed key bug" />
+    <MESSAGE value="Finished Question 4" />
+    <option name="LAST_COMMIT_MESSAGE" value="Finished Question 4" />
   </component>
   <component name="WindowStateProjectService">
     <state x="483" y="163" key="#xdebugger.evaluate" timestamp="1583345831255">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="483" y="163" key="#xdebugger.evaluate/0.0.1440.900@0.0.1440.900" timestamp="1583345831255" />
-    <state x="391" y="57" key="CommitChangelistDialog2" timestamp="1584399790302">
+    <state x="391" y="57" key="CommitChangelistDialog2" timestamp="1584403414095">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="391" y="57" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1584399790302" />
-    <state width="1419" height="2" key="GridCell.Tab.0.bottom" timestamp="1584403377506">
+    <state x="391" y="57" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1584403414095" />
+    <state width="1023" height="453" key="GridCell.Tab.0.bottom" timestamp="1584408229237">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="2" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584403377506" />
+    <state width="1023" height="453" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1584408229237" />
     <state width="1230" height="380" key="GridCell.Tab.0.bottom/0.23.1440.760@0.23.1440.760" timestamp="1584047772734" />
     <state width="709" height="116" key="GridCell.Tab.0.bottom/0.23.1440.792@0.23.1440.792" timestamp="1583460682086" />
-    <state width="1419" height="2" key="GridCell.Tab.0.center" timestamp="1584403377505">
+    <state width="1023" height="453" key="GridCell.Tab.0.center" timestamp="1584408229236">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="2" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584403377505" />
+    <state width="1023" height="453" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1584408229236" />
     <state width="1230" height="380" key="GridCell.Tab.0.center/0.23.1440.760@0.23.1440.760" timestamp="1584047772733" />
     <state width="709" height="116" key="GridCell.Tab.0.center/0.23.1440.792@0.23.1440.792" timestamp="1583460682085" />
-    <state width="1419" height="2" key="GridCell.Tab.0.left" timestamp="1584403377505">
+    <state width="1023" height="453" key="GridCell.Tab.0.left" timestamp="1584408229235">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="2" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584403377505" />
+    <state width="1023" height="453" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1584408229235" />
     <state width="1230" height="380" key="GridCell.Tab.0.left/0.23.1440.760@0.23.1440.760" timestamp="1584047772733" />
     <state width="709" height="116" key="GridCell.Tab.0.left/0.23.1440.792@0.23.1440.792" timestamp="1583460682085" />
-    <state width="1419" height="2" key="GridCell.Tab.0.right" timestamp="1584403377506">
+    <state width="1023" height="453" key="GridCell.Tab.0.right" timestamp="1584408229237">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="2" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584403377506" />
+    <state width="1023" height="453" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1584408229237" />
     <state width="1230" height="380" key="GridCell.Tab.0.right/0.23.1440.760@0.23.1440.760" timestamp="1584047772734" />
     <state width="709" height="116" key="GridCell.Tab.0.right/0.23.1440.792@0.23.1440.792" timestamp="1583460682085" />
     <state width="1419" height="325" key="GridCell.Tab.1.bottom" timestamp="1584403184574">
@@ -424,13 +432,8 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/hw1v2.py</url>
-          <line>86</line>
-          <option name="timeStamp" value="5" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/hw1.py</url>
-          <line>182</line>
+          <line>186</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
