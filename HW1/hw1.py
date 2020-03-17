@@ -85,30 +85,28 @@ def create_bigram_count_dict(tokenized_data):
     for sentence in tokenized_data:
         for i in range(0, len(sentence) - 1):
             bigram_key = sentence[i] + " " + sentence[i + 1]
-            if len(sentence[i]) == 0:
-                print("sentence i is fucked\n")
-            if len(sentence[i+1]) == 0:
-                print("sentence i+1 is fucked\n")
             count_dict[bigram_key] = 1 if bigram_key not in count_dict else count_dict[bigram_key] + 1
     return count_dict
 
 
 # Make bigram dictionary
-def train_bigram_mle(tokenized_data, train_data_dict):
+def get_bigram_mle(tokenized_data, data_dict):
     model = create_bigram_count_dict(tokenized_data)
     # Assign bigram probabilities
     k = 0
     for word in model:
         # Split by comma
         words = word.split()  # Get Wi-1 and Wi
-        print("******k is: " + str(k) + " words are: " + str(words[0]) + " len: " + str(len(words[0])) + " and " +
-              str(words[1]) + " len: " + str(len(words[1])) + " word is:" + word + "******\n")
+        # print("******k is: " + str(k) + " words are: " + str(words[0]) + " len: " + str(len(words[0])) + " and " +
+        #       str(words[1]) + " len: " + str(len(words[1])) + " word is:" + word + "******\n")
 
         if len(words[0]) != 0 and len(words[1]) != 0:
-            model[word] /= train_data_dict[words[0]]
+            model[word] /= data_dict[words[0]]
         k += 1
 
     return model
+
+
 
 
 def count_tokens(data_dict):
@@ -116,6 +114,20 @@ def count_tokens(data_dict):
     for word in data_dict:
         count += data_dict[word]
     return count
+
+
+# This function returns a dictionary containing only the words found in test_bigram but not in train_bigram
+def filter_test_bigram(train_bigram_counts, test_bigram_counts):
+    filtered_test_bigram = copy.deepcopy(test_bigram_counts)
+    unknown_test_bigram = {}
+    # Every word(word_phrase of two words) found in the test_bigram but not in train_bigram is copied into
+    # unknown_test_bigram gets its key and value copied into unknown_test_bigram
+    for word in filtered_test_bigram:
+        if word not in train_bigram_counts:
+            unknown_test_bigram[word] = test_bigram_counts[word]
+
+    return unknown_test_bigram
+
 
 
 def main():
@@ -151,7 +163,18 @@ def main():
 
     # bigram_model_before_unk = train_bigram_mle(tokenized_train_data_before_unk, train_data_dict_before_unk)
 
-    bigram_model_after_unk = train_bigram_mle(tokenized_train_data_after_unk, train_data_dict_after_unk)
+    train_bigram = get_bigram_mle(tokenized_train_data_after_unk, train_data_dict_after_unk)
+
+    test_bigram = get_bigram_mle(tokenized_test_data_after_unk, test_dict_after_unk)
+
+    train_bigram_counts = create_bigram_count_dict(tokenized_train_data_after_unk)
+    test_bigram_counts = create_bigram_count_dict(tokenized_test_data_after_unk)
+
+
+    filtered_test_bigram = filter_test_bigram(train_bigram_counts, test_bigram_counts)
+
+
+
 
     # total_bigram_count_after_unk = count_tokens(bigram_model_after_unk)
     #
@@ -179,7 +202,8 @@ def main():
           "corpus did not occur in training (treat <unk> as a regular token that has been observed).")
 
     print("a). Percentage of bigram tokens in the test corpus that did not occur in training \n " +
-          str(1))
+          str(count_tokens(filtered_test_bigram)) + "/" + str(count_tokens(test_bigram_counts)) +
+          " OR \n" + str((count_tokens(filtered_test_bigram) / count_tokens(test_bigram_counts)) * 100) + "%\n")
 
 if __name__ == "__main__":
     main()
