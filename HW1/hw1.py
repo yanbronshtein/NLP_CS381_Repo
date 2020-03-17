@@ -137,9 +137,19 @@ def filter_test_bigram(train_bigram_counts, test_bigram_counts):
     return unknown_test_bigram
 
 
+# This function is used to pad and lowercase the test sentence provided in question 5
+def process_sentence(sentence: str):
+    tokenized_sentence = sentence.lower().split()
+    tokenized_sentence = ["<s>"] + tokenized_sentence
+    tokenized_sentence = tokenized_sentence + ["</s>"]
+    return tokenized_sentence
+
+
 # This function is used to calculate the log probability
 # log(p1 * p2 * p3 * p4 ) = log p1 + log p2 + log p3 + log p4
-def compute_log_probability(model, tokenized_sentence):
+# The function returns a tuple because we need the full calculation with all steps as a string and the numeric value
+# of the log probability. To get the string do tuple[0] and to get the float value do tuple[1]
+def compute_log_probability_unigram_mle(model, tokenized_sentence):
     probability = 0
     solution_string = "P("
     for word in tokenized_sentence:
@@ -150,7 +160,30 @@ def compute_log_probability(model, tokenized_sentence):
         solution_string += "log(p(" + word + ")) + "
         probability += math.log(model[word], 2)
     solution_string = solution_string[0: len(solution_string)-2] + " = " + str(probability)
-    return solution_string
+    return solution_string, probability
+
+
+# For the bigram models(Maximum Likelihood and Add-One-Smoothing) we need to tokenize first
+def compute_log_probability_bigram(model, tokenized_sentence):
+    probability = 0
+    solution_string = "P("
+    for word in tokenized_sentence:
+        solution_string += (word + ", ")
+    solution_string = solution_string[0: len(solution_string)-2] + ") = "
+
+    for word in tokenized_sentence:
+        words = word.split()
+        solution_string += "log(p(" + words[0] + ", " + words[1] + ")) + "
+        probability += math.log(model[word], 2)
+    solution_string = solution_string[0: len(solution_string)-2] + " = " + str(probability)
+    return solution_string, probability
+
+
+# PP(W) = P(W1W2..Wn) ^(-1/n)
+#todo: Do we use the log probability
+def compute_perplexity(log_probability, n):
+    return log_probability ** -(1/n)
+
 
 
 
@@ -173,12 +206,7 @@ def compute_log_probability(model, tokenized_sentence):
 #     return probability
 
 
-# This function is used to pad and lowercase the test sentence provided in question 5
-def process_sentence(sentence: str):
-    tokenized_sentence = sentence.lower().split()
-    tokenized_sentence = ["<s>"] + tokenized_sentence
-    tokenized_sentence = tokenized_sentence + ["</s>"]
-    return tokenized_sentence
+
 
 
 # This is the main function
@@ -236,12 +264,19 @@ def main():
 
     # Training unigram with maximum likelihood estimation, test it, and calculate log probability
     train_unigram_mle = get_unigram_mle(train_data_dict_after_unk)
-    train_bigram_mle = get_bigram_mle(train_data_dict_after_unk)
-    train_bigram_aos = get_bigram_aos(train_data_dict_after_unk)
+    train_bigram_mle = get_bigram_mle(tokenized_train_data_after_unk, train_data_dict_after_unk)
+    train_bigram_aos = get_bigram_aos(tokenized_train_data_after_unk, train_data_dict_after_unk)
 
-    unigram_mle_log_probability = compute_log_probability(train_unigram_mle, q5_sentence_tokenized_after_unk)
-    bigram_mle_log_probability = compute_log_probability(train_bigram_mle, q5_sentence_tokenized_after_unk)
-    bigram_aos_log_probability = compute_log_probability(train_bigram_aos, q5_sentence_tokenized_after_unk)
+    # Calculate log probability of the three models
+    unigram_mle_log_probability = compute_log_probability_unigram_mle(train_unigram_mle, q5_sentence_tokenized_after_unk)
+    bigram_mle_log_probability = compute_log_probability_bigram(train_bigram_mle, q5_sentence_tokenized_after_unk)
+    bigram_aos_log_probability = compute_log_probability_bigram(train_bigram_aos, q5_sentence_tokenized_after_unk)
+
+    n = len(q5_sentence_dict)
+    # Calculate perplexity
+    unigram_mle_perplexity = compute_perplexity(unigram_mle_log_probability[1], n)
+    bigram_mle_perplexity = compute_perplexity(bigram_mle_log_probability[1], n)
+    bigram_aos_perplexity = compute_perplexity(bigram_aos_log_probability[1], n)
 
 
 
@@ -284,10 +319,17 @@ def main():
           "model?\n "
           "Use log base 2 in your calculations. Map words not observed in the training corpus to the <unk> token.\n"
           "I look forward to hearing your reply .\n")
-    print("******Unigram Maximum Likelihood Log Probability******\n" + unigram_mle_log_probability + "\n")
-    print("******Bigram Maximum Likelihood Log Probability******\n" + bigram_mle_log_probability + "\n")
-    print("******Bigram Add One Smoothing Log Probability******\n" + bigram_aos_log_probability + "\n")
 
+
+    # todo: Am I even right????
+    print("******Unigram Maximum Likelihood Log Probability******\n" + unigram_mle_log_probability[0] + "\n")
+    print("******Bigram Maximum Likelihood Log Probability******\n" + bigram_mle_log_probability[0] + "\n")
+    print("******Bigram Add One Smoothing Log Probability******\n" + bigram_aos_log_probability[0] + "\n")
+
+    print("Q6: Compute the perplexity of the sentence above under each of the models.\n")
+    print("******Unigram Maximum Likelihood Perplexity******\n" + str(unigram_mle_perplexity) + "\n")
+    print("******Bigram Maximum Likelihood Perplexity******\n" + str(bigram_mle_perplexity) + "\n")
+    print("******Bigram Add One Smoothing Perplexity******\n" + str(bigram_aos_perplexity) + "\n")
 
 
 if __name__ == "__main__":
