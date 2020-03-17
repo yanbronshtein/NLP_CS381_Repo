@@ -159,7 +159,7 @@ def compute_log_probability_unigram_mle(model, tokenized_sentence):
     for word in tokenized_sentence:
         solution_string += "log(p(" + word + ")) + "
         probability += math.log(model[word], 2)
-    solution_string = solution_string[0: len(solution_string)-2] + " = " + str(probability)
+    solution_string = solution_string[0: len(solution_string)-3] + " = " + str(probability)
     return solution_string, probability
 
 
