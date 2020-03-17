@@ -2,14 +2,13 @@ import copy
 import math
 
 # Source paths of train.txt and test.txt
-
-path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"  # todo: Use relative path instead
+path = input("Please enter the current directory path")
+# path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"  # todo: Use relative path instead
 
 sources = [path + "/train.txt", path + "/test.txt"]  # todo: change back to original man
 
 
 # sources = [path + "/train_small.txt", path + "/test_small.txt"]
-
 
 # This function is used to tokenize and pad data read from train.txt and test.txt
 def pad_and_tokenize_file_data(file_path):
@@ -20,7 +19,7 @@ def pad_and_tokenize_file_data(file_path):
             if stripped_line:
                 stripped_line = stripped_line.lower()  # Lowercase each line
                 tokenized_line = stripped_line.split()  # Tokenize the line by spaces
-                tokenized_line.insert(0, '<s>')  # Prepend start symbol
+                tokenized_line.insert(0, "<s>")  # Prepend start symbol
                 tokenized_line.insert(len(tokenized_line), '</s>')  # Append stop symbol
                 tokenized_padded_data.append(tokenized_line)  # Append the cleaned line to tokenized_padded_data
     file.close()  # Close the file
@@ -45,6 +44,7 @@ def count_tokens_old(tokenized_data):
         token_count += len(sentence)
     return token_count
 
+
 # This function is used to create an updated train data dictionary after singletons are replaced with "<unk>"
 def replace_singleton_with_unk_train(tokenized_train_data_before_unk, train_data_dict_before_unk):
     tokenized_train_data_after_unk = copy.deepcopy(tokenized_train_data_before_unk) # Copy the training data for modification
@@ -65,11 +65,11 @@ def replace_singleton_with_unk_train(tokenized_train_data_before_unk, train_data
 
 # This function is used to create an updated test data dictionary after words found in testing but not in training
 # are replaced with "<unk>"
-def replace_singleton_with_unk_test(tokenized_test_data_before_unk, train_data_dict_before_unk):
+def replace_singleton_with_unk_test(tokenized_test_data_before_unk, train_data_dict_after_unk):
     tokenized_test_data_after_unk = copy.deepcopy(tokenized_test_data_before_unk)
     for line in tokenized_test_data_after_unk:
         for i in range(0, len(line)):
-            if line[i] not in train_data_dict_before_unk:
+            if line[i] not in train_data_dict_after_unk:
                 line[i] = "<unk>"
     return tokenized_test_data_after_unk
 
@@ -104,6 +104,7 @@ def get_bigram_mle(tokenized_data, data_dict):
         model[bigram_key] /= data_dict[words[0]]
     return model
 
+
 # This function is used to train a bigram model with add one smoothing
 def get_bigram_aos(tokenized_data, data_dict):
     model = create_bigram_count_dict(tokenized_data)
@@ -135,9 +136,10 @@ def filter_test_bigram(train_bigram_counts, test_bigram_counts):
 
     return unknown_test_bigram
 
+
 # This function is used to calculate the log probability
 # log(p1 * p2 * p3 * p4 ) = log p1 + log p2 + log p3 + log p4
-def compute_log_probability_unigram_mle(model, tokenized_sentence):
+def compute_log_probability(model, tokenized_sentence):
     probability = 0
     solution_string = "P("
     for word in tokenized_sentence:
@@ -145,10 +147,15 @@ def compute_log_probability_unigram_mle(model, tokenized_sentence):
     solution_string = solution_string[0: len(solution_string)-2] + ") = "
 
     for word in tokenized_sentence:
-        solution_string += "log( p(" + word + ")) + "
+        solution_string += "log(p(" + word + ")) + "
         probability += math.log(model[word], 2)
     solution_string = solution_string[0: len(solution_string)-2] + " = " + str(probability)
     return solution_string
+
+
+
+
+
 
 # def compute_log_probability_unigram_mle_v2(model, tokenized_sentence):
 #     probability = 0
@@ -173,6 +180,7 @@ def process_sentence(sentence: str):
     tokenized_sentence = tokenized_sentence + ["</s>"]
     return tokenized_sentence
 
+
 # This is the main function
 def main():
     tokenized_train_data_before_unk = pad_and_tokenize_file_data(sources[0])
@@ -191,7 +199,7 @@ def main():
 
     unique_train_token_count_after_unk = len(train_data_dict_after_unk)
 
-    tokenized_test_data_after_unk = replace_singleton_with_unk_test(tokenized_test_data_before_unk, train_data_dict_before_unk)
+    tokenized_test_data_after_unk = replace_singleton_with_unk_test(tokenized_test_data_before_unk, train_data_dict_after_unk)
 
     test_dict_after_unk = populate_dict(tokenized_test_data_after_unk)
 
@@ -224,25 +232,19 @@ def main():
     for word in q5_sentence_tokenized:
         q5_sentence_dict[word] = 1 if word not in q5_sentence_dict else q5_sentence_dict[word] + 1
 
-    q5_sentence_tokenized_after_unk = replace_singleton_with_unk_test(q5_sentence_tokenized, train_data_dict_before_unk)
+    q5_sentence_tokenized_after_unk = replace_singleton_with_unk_test(q5_sentence_tokenized, train_data_dict_after_unk)
 
     # Training unigram with maximum likelihood estimation, test it, and calculate log probability
     train_unigram_mle = get_unigram_mle(train_data_dict_after_unk)
+    train_bigram_mle = get_bigram_mle(train_data_dict_after_unk)
+    train_bigram_aos = get_bigram_aos(train_data_dict_after_unk)
 
-    # test_unigram_mle = get_unigram_mle(q5_sentence_dict)
-    # unigram_mle_log_probability = compute_log_probability_unigram_mle(train_unigram_mle, q5_sentence_tokenized_after_unk) todo:blip
-    unigram_mle_log_probability = compute_log_probability_unigram_mle(train_unigram_mle, q5_sentence_tokenized_after_unk)
+    unigram_mle_log_probability = compute_log_probability(train_unigram_mle, q5_sentence_tokenized_after_unk)
+    bigram_mle_log_probability = compute_log_probability(train_bigram_mle, q5_sentence_tokenized_after_unk)
+    bigram_aos_log_probability = compute_log_probability(train_bigram_aos, q5_sentence_tokenized_after_unk)
 
 
-    # Training bigram with maximum likelihood estimation, testing it, and calculate log probability
-    # train_bigram_mle = get_bigram_mle(tokenized_train_data_after_unk, train_data_dict_after_unk)
-    # test_bigram_mle = get_bigram_mle(q5_sentence_tokenized, q5_sentence_dict)
 
-    # Training bigram with add-one-smoothing
-    # train_bigram_aos = get_bigram_aos(tokenized_train_data_after_unk,
-    #                                   train_data_dict_after_unk)
-
-    # test_bigram_aos = get_bigram_aos(q5_sentence_tokenized, q5_sentence_dict)
 
 
 
@@ -283,6 +285,8 @@ def main():
           "Use log base 2 in your calculations. Map words not observed in the training corpus to the <unk> token.\n"
           "I look forward to hearing your reply .\n")
     print("******Unigram Maximum Likelihood Log Probability******\n" + unigram_mle_log_probability + "\n")
+    print("******Bigram Maximum Likelihood Log Probability******\n" + bigram_mle_log_probability + "\n")
+    print("******Bigram Add One Smoothing Log Probability******\n" + bigram_aos_log_probability + "\n")
 
 
 
