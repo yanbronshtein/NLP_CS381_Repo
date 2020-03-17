@@ -69,12 +69,11 @@ def replace_singleton_with_unk_test(tokenized_test_data_before_unk, train_data_d
     return tokenized_test_data_after_unk
 
 
-# This function is used to train the unigram model before "<unk>" is inserted
-def train_unigram_mle(tokenized_train_data, total_train_token_count):
-    model = {}
+# This function is used to train the unigram model
+def get_unigram_mle(data_dict):
+    model = copy.deepcopy(data_dict)
     for word in model:
-        model[word] = tokenized_train_data[word] / total_train_token_count
-
+        model[word] /= count_tokens(data_dict)
     return model
 
 
@@ -105,7 +104,7 @@ def get_bigram_mle(tokenized_data, data_dict):
     return model
 
 
-def get_bigram_add_one_smoothing(tokenized_data, data_dict):
+def get_bigram_aos(tokenized_data, data_dict):
     model = create_bigram_count_dict(tokenized_data)
     for word in model:
         words = word.split()
@@ -133,7 +132,23 @@ def filter_test_bigram(train_bigram_counts, test_bigram_counts):
     return unknown_test_bigram
 
 
-# def compute_log_probabilities_unigram(unigram):
+# log(p1 * p2 * p3 * p4 ) = log p1 + log p2 + log p3 + log p4
+def compute_log_probability_unigram_mle(model, sentence: str):
+    probability = 0
+    solution_string = "p("
+    for word in model:
+        solution_string += "log( p(" + word + ") + "
+        probability += math.log(model[word], 2)
+    return probability
+
+
+def process_sentence(sentence: str):
+    tokenized_sentence = sentence.lower().split()
+    tokenized_sentence = tokenized_sentence.insert(0, "<s>")
+    tokenized_sentence = tokenized_sentence.insert(len(sentence), "</s>")
+    return tokenized_sentence
+
+
 
 
 
@@ -165,24 +180,33 @@ def main():
     percent_word_tokens_testing = (test_dict_after_unk["<unk>"] / unique_test_token_count) * 100  # The numerator
     # should be the same as with part a
 
-    # unigram_model_before_unk = train_unigram_mle(tokenized_train_data_before_unk, tokenized_train_data_before_unk)
-    #
-    # unigram_model_after_unk = train_unigram_mle(tokenized_train_data_after_unk, tokenized_train_data_before_unk)
-
-    # bigram_model_before_unk = train_bigram_mle(tokenized_train_data_before_unk, train_data_dict_before_unk)
-
-    train_bigram = get_bigram_mle(tokenized_train_data_after_unk, train_data_dict_after_unk)
-
-    test_bigram = get_bigram_mle(tokenized_test_data_after_unk, test_dict_after_unk)
-
     train_bigram_counts = create_bigram_count_dict(tokenized_train_data_after_unk)
+
     test_bigram_counts = create_bigram_count_dict(tokenized_test_data_after_unk)
 
     filtered_test_bigram = filter_test_bigram(train_bigram_counts, test_bigram_counts)
 
-    # total_bigram_count_after_unk = count_tokens(bigram_model_after_unk)
-    #
-    # unique_bigram_count_after_unk = len(bigram_model_after_unk)
+    # Created tokenized sentence(testing data) and the testing corpus
+    q5_sentence_tokenized = process_sentence("I look forward to hearing your reply .")
+    q5_sentence_dict = populate_dict(q5_sentence_tokenized)
+
+    # Training unigram with maximum likelihood estimation, test it, and calculate log probability
+    train_unigram_mle = get_unigram_mle(train_data_dict_after_unk)
+    test_unigram_mle = get_unigram_mle(q5_sentence_dict)
+    unigram_mle_log_probability = compute_log_probability()
+
+    # Training bigram with maximum likelihood estimation, testing it, and calculate log probability
+    train_bigram_mle = get_bigram_mle(tokenized_train_data_after_unk, train_data_dict_after_unk)
+    test_bigram_mle = get_bigram_mle(q5_sentence_tokenized, q5_sentence_dict)
+
+    # Training bigram with add-one-smoothing
+    train_bigram_aos = get_bigram_aos(tokenized_train_data_after_unk,
+                                      train_data_dict_after_unk)
+
+    test_bigram_aos = get_bigram_aos(q5_sentence_tokenized, q5_sentence_dict)
+
+
+
 
     print("Q1: How many word types (unique words) are there in the training corpus?\n "
           "Please include the padding symbols and the unknown token.\n" + str(len(train_data_dict_after_unk)))
@@ -214,10 +238,14 @@ def main():
           " OR \n" + str((len(filtered_test_bigram) / len(test_bigram_counts)) * 100) + "%\n")
 
     print("Q5: Compute the log probability of the following sentence under the three models (ignore capitalization\n"
-          " and pad each sentence as described above). Please list all of the param- eters required to compute the\n"
-          " probabilities and show the complete calculation. Which of the parameters have zero values under each model?\n "
-          "Use log base 2 in your calcula- tions. Map words not observed in the training corpus to the <unk> token.\n"
-          "I look forward to hearing your reply.\n")
+          " and pad each sentence as described above). Please list all of the parameters required to compute the\n"
+          "probabilities and show the complete calculation. Which of the parameters have zero values under each "
+          "model?\n "
+          "Use log base 2 in your calculations. Map words not observed in the training corpus to the <unk> token.\n"
+          "I look forward to hearing your reply .\n")
+
+
+
 
 
 if __name__ == "__main__":
