@@ -307,17 +307,22 @@ def main():
     # Replace any tokens in the new sentence with "<unk>" if they do not appear in training
     q5_sentence_tokenized_after_unk = replace_singleton_with_unk_test(q5_sentence_tokenized, train_data_dict_after_unk)
 
-    # Create test corpus for q5
+    #******Create test corpus for q5******
     # Get the parameters
     parameters1 = []
-    # for word in q5_sentence_tokenized_after_unk:
-    #     q5_sentence_dict[word] = 1 if word not in q5_sentence_dict else q5_sentence_dict[word] + 1
-    #     parameters1.append(word)
+    for word in q5_sentence_tokenized_after_unk:
+        q5_sentence_dict[word] = 1 if word not in q5_sentence_dict else q5_sentence_dict[word] + 1
+        parameters1.append(word)
 
-
+    #****** Training of unigram_mle, bigram_mle, and bigram_aos models ******
+    # Create Unigram counts. This information has already been generated in the train_data_dict_after unk for the
+    # previous questions
     train_unigram_counts_mle = copy.deepcopy(train_data_dict_after_unk)
+
+    # Train the unigram using the counts
     train_unigram_mle_q5 = get_unigram_mle(train_unigram_counts_mle)
 
+    # Create the bigram with add-one-smoothing counts by adding one to all the bigram_mle counts
     train_bigram_counts_aos = copy.deepcopy(train_bigram_counts_mle)
 
     parameters2 = []
@@ -327,18 +332,32 @@ def main():
         parameters2.append(key)
         parameters3.append(key)
 
-
+    # Train the bigram_mle using the unigram counts and the bigram counts_mle
     train_bigram_mle_q5 = get_bigram(train_bigram_counts_mle, train_unigram_counts_mle)
+    # Train the bigram_aos using the unigram counts and the bigram counts and the bigram_aos counts
     train_bigram_aos_q5 = get_bigram_aos(train_bigram_counts_aos, train_unigram_counts_mle)
 
+    #****** Creating of testing grams for unigram_mle, bigram_mle, and bigram_aos models ******
+
+    # Create test unigram_mle
+    test_unigram_counts_mle_q5 = {}
+    for token in q5_sentence_tokenized_after_unk:
+        test_unigram_counts_mle_q5[token] = q5_sentence_dict[token] / len(q5_sentence_tokenized_after_unk)
+    test_unigram_mle_q5 = get_unigram_mle(test_unigram_counts_mle_q5)
+
+    # Create test bigram_mle counts
     test_bigram_counts_mle_q5 = create_bigram_count_dict_single_sentence(q5_sentence_tokenized_after_unk)
-    #
+
+    # Create test bigram_aos counts
     test_bigram_counts_aos_q5 = copy.deepcopy(test_bigram_counts_mle_q5)
     for key in test_bigram_counts_aos_q5:
         test_bigram_counts_aos_q5[key] += 1
 
-    test_unigram_mle_q5 = get_unigram_mle(train_unigram_counts_mle)
-    test_bigram_mle_q5 = get_bigram(test_bigram_counts_mle_q5,train_unigram_counts_mle)
+
+    #Create test bigram_mle
+    test_bigram_mle_q5 = get_bigram(test_bigram_counts_mle_q5, train_unigram_counts_mle)
+
+    #Create test bigram_aos
     test_bigram_aos_q5 = get_bigram_aos(train_bigram_counts_aos, train_unigram_counts_mle)
 
     print("BROOO")
