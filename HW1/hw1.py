@@ -2,8 +2,8 @@ import copy
 import math
 
 # Source paths of train.txt and test.txt
-path = input("Please enter the current directory path")
-# path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"  # todo: Use relative path instead
+# path = input("Please enter the current directory path")
+path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"  # todo: Use relative path instead
 
 sources = [path + "/train.txt", path + "/test.txt"]  # todo: change back to original man
 
@@ -86,11 +86,19 @@ def get_unigram_mle(data_dict):
 # This function is used to create a bigram by grouping the tokenized_data into
 def create_bigram_count_dict(tokenized_data):
     count_dict = {}
-
     for sentence in tokenized_data:
         for i in range(0, len(sentence) - 1):
             bigram_key = sentence[i] + " " + sentence[i + 1]
             count_dict[bigram_key] = 1 if bigram_key not in count_dict else count_dict[bigram_key] + 1
+    return count_dict
+
+
+#Used to create a bigram for a single sentece
+def create_bigram_count_dict_single_sentence(tokenized_sentence):
+    count_dict = {}
+    for i in range(0, len(tokenized_sentence) - 1):
+        bigram_key = tokenized_sentence[i] + " " + tokenized_sentence[i + 1]
+        count_dict[bigram_key] = 1 if bigram_key not in count_dict else count_dict[bigram_key] + 1
     return count_dict
 
 
@@ -105,13 +113,30 @@ def get_bigram_mle(tokenized_data, data_dict):
     return model
 
 
+def get_bigram_single_sentence_mle(tokenized_sentence_after_unk, data_dict):
+    model = create_bigram_count_dict_single_sentence(tokenized_sentence_after_unk)
+    for bigram_key in model:
+        words = bigram_key.split()
+        model[bigram_key] /= data_dict[words[0]]
+    return model
+
+
 # This function is used to train a bigram model with add one smoothing
 def get_bigram_aos(tokenized_data, data_dict):
     model = create_bigram_count_dict(tokenized_data)
     V = len(model)
-    for word in model:
-        words = word.split()
-        model[word] = (model[word] + 1) / (data_dict[words[0]] + V)
+    for bigram_key in model:
+        words = bigram_key.split()
+        model[bigram_key] = (model[bigram_key] + 1) / (data_dict[words[0]] + V)
+    return model
+
+
+def get_bigram_single_sentence_aos(tokenized_sentence_after_unk, data_dict):
+    model = create_bigram_count_dict_single_sentence(tokenized_sentence_after_unk)
+    V = len(model)
+    for bigram_key in model:
+        words = bigram_key.split()
+        model[bigram_key] = (model[bigram_key] + 1) / (data_dict[words[0]] + V)
     return model
 
 
@@ -156,37 +181,57 @@ def compute_log_probability_unigram_mle(model, tokenized_sentence):
         solution_string += (word + ", ")
     solution_string = solution_string[0: len(solution_string)-2] + ") = "
 
+    is_undefined = False
     for word in tokenized_sentence:
         solution_string += "log(p(" + word + ")) + "
-        probability += math.log(model[word], 2)
-    solution_string = solution_string[0: len(solution_string)-3] + " = " + str(probability)
+        if model[word] != 0:
+            probability += math.log(model[word], 2)
+        else:
+            is_undefined = True
+            continue
+    if not is_undefined:
+        solution_string = solution_string[0: len(solution_string) - 1] + " = " + str(probability)
+    else:
+        solution_string = solution_string[0: len(solution_string) - 2] + " = log(0) OR -inf"
+        probability = -math.inf
+
     return solution_string, probability
 
 
 # For the bigram models(Maximum Likelihood and Add-One-Smoothing) we need to tokenize first
-def compute_log_probability_bigram(model, tokenized_sentence):
+def compute_log_probability_bigram(train_model, test_model, tokenized_sentence):
     probability = 0
     solution_string = "P("
-    for word in tokenized_sentence:
-        solution_string += (word + ", ")
-    solution_string = solution_string[0: len(solution_string)-2] + ") = "
 
     for word in tokenized_sentence:
+        solution_string += (word + ", ")
+
+    solution_string = solution_string[0: len(solution_string)-2] + ") = "
+    k = 0
+    # model_for_sentence = {}
+
+    is_undefined = False
+    for word in test_model:
         words = word.split()
         solution_string += "log(p(" + words[0] + ", " + words[1] + ")) + "
-        probability += math.log(model[word], 2)
-    solution_string = solution_string[0: len(solution_string)-2] + " = " + str(probability)
+        if train_model[word] != 0:
+            probability += math.log(train_model[word], 2)
+        else:
+            is_undefined = True
+            continue
+    if not is_undefined:
+        solution_string = solution_string[0: len(solution_string) - 1] + " = " + str(probability)
+    else:
+        solution_string[0: len(solution_string) - 2] + " = " + str("log(0) -inf")
+        probability = -math.inf
+
     return solution_string, probability
 
 
 # PP(W) = P(W1W2..Wn) ^(-1/n)
 #todo: Do we use the log probability
-def compute_perplexity(log_probability, n):
-    return log_probability ** -(1/n)
-
-
-
-
+def compute_perplexity(log_probability):
+    return 2 ** -log_probability if not math.isinf(log_probability) else math.inf,
 
 
 
@@ -254,35 +299,54 @@ def main():
 
     count_total_unique_bigrams = len(test_bigram_counts)
     # Created tokenized sentence(testing data) and the testing corpus
+
+    #***** Question 5 ******
     q5_sentence_tokenized = process_sentence("I look forward to hearing your reply .")
     q5_sentence_dict = {}
+    q5_sentence_tokenized_after_unk = replace_singleton_with_unk_test(q5_sentence_tokenized, train_data_dict_after_unk)
 
-    for word in q5_sentence_tokenized:
+    # Create test corpus for q5
+    for word in q5_sentence_tokenized_after_unk:
         q5_sentence_dict[word] = 1 if word not in q5_sentence_dict else q5_sentence_dict[word] + 1
 
-    q5_sentence_tokenized_after_unk = replace_singleton_with_unk_test(q5_sentence_tokenized, train_data_dict_after_unk)
+    # create test_bigram
+
+    # Set counts to 0
+
+    # modified_test_bigram_count_sentence = copy.deepcopy(test_bigram_sentence)
+    # for key in modified_test_bigram_count_sentence:
+    #     if key not in train_bigram_counts:
+    #         modified_test_bigram_count_sentence[key] = 0
+    #
+    # test_bigram_sentence = {}
+    # for bigram_key in modified_test_bigram_count_sentence:
+    #     # Split by comma
+    #     words = bigram_key.split()  # Get Wi-1 and Wi
+    #     if modified_test_bigram_count_sentence[bigram_key] == 0:
+    #         test_bigram_sentence[bigram_key] = 0
+    #     else:
+    #         test_bigram_sentence[bigram_key] = modified_test_bigram_count_sentence[bigram_key] / q5_sentence_dict[words[0]]
+    #
+    # print(test_bigram_sentence)
 
     # Training unigram with maximum likelihood estimation, test it, and calculate log probability
     train_unigram_mle = get_unigram_mle(train_data_dict_after_unk)
-    train_bigram_mle = get_bigram_mle(tokenized_train_data_after_unk, train_data_dict_after_unk)
-    train_bigram_aos = get_bigram_aos(tokenized_train_data_after_unk, train_data_dict_after_unk)
 
+    # train_bigram_mle = get_bigram_mle(q5_sentence_tokenized_after_unk, train_data_dict_after_unk)
+    # test_bigram_mle = get_bigram_single_sentence_mle(q5_sentence_tokenized_after_unk, q5_sentence_dict)
+
+    # train_bigram_aos = get_bigram_aos(tokenized_train_data_after_unk, train_data_dict_after_unk)
+    # test_bigram_aos = get_bigram_single_sentence_aos(tokenized_train_data_after_unk, q5_sentence_dict)
     # Calculate log probability of the three models
     unigram_mle_log_probability = compute_log_probability_unigram_mle(train_unigram_mle, q5_sentence_tokenized_after_unk)
-    bigram_mle_log_probability = compute_log_probability_bigram(train_bigram_mle, q5_sentence_tokenized_after_unk)
-    bigram_aos_log_probability = compute_log_probability_bigram(train_bigram_aos, q5_sentence_tokenized_after_unk)
+    # bigram_mle_log_probability = compute_log_probability_bigram(train_bigram_mle, test_bigram_mle, q5_sentence_tokenized)
+    # bigram_aos_log_probability = compute_log_probability_bigram(train_bigram_aos, q5_sentence_tokenized_after_unk)
 
     n = len(q5_sentence_dict)
     # Calculate perplexity
-    unigram_mle_perplexity = compute_perplexity(unigram_mle_log_probability[1], n)
-    bigram_mle_perplexity = compute_perplexity(bigram_mle_log_probability[1], n)
-    bigram_aos_perplexity = compute_perplexity(bigram_aos_log_probability[1], n)
-
-
-
-
-
-
+    unigram_mle_perplexity = compute_perplexity(unigram_mle_log_probability[1])
+    # bigram_mle_perplexity = compute_perplexity(bigram_mle_log_probability[1], n)
+    # bigram_aos_perplexity = compute_perplexity(bigram_aos_log_probability[1], n)
 
     print("Q1: How many word types (unique words) are there in the training corpus?\n "
           "Please include the padding symbols and the unknown token.\n" + str(unique_train_token_count_after_unk))
@@ -293,11 +357,11 @@ def main():
           " (before you mapped the unknown words to <unk> in training and test data)? \n"
           "Please include the padding symbols in your calculations.")
 
-    print("a). Percentage of word tokens in test corpus not in training \n" + str(test_dict_after_unk["<unk>"]) + "/" +
+    print("a). Percentage of word tokens in test corpus not in training \n" + str(count_unks_testing) + "/" +
           str(total_test_token_count_before_unk) + " OR \n" + str(percent_word_tokens_testing) + "%\n")
 
     print("b). Percentage of word types in test corpus that did not occur in training \n" +
-          str(unique_test_token_count_before_unk) + "/" + str(unique_test_token_count_before_unk) +
+          str(count_unks_testing) + "/" + str(unique_test_token_count_before_unk) +
           " OR \n" + str(percent_word_tokens_testing) + "%\n")
 
     print("Q4: Now replace singletons in the training data with <unk> symbol and map words (in the test corpus)\n "
@@ -322,14 +386,16 @@ def main():
 
 
     # todo: Am I even right????
-    print("******Unigram Maximum Likelihood Log Probability******\n" + unigram_mle_log_probability[0] + "\n")
-    print("******Bigram Maximum Likelihood Log Probability******\n" + bigram_mle_log_probability[0] + "\n")
-    print("******Bigram Add One Smoothing Log Probability******\n" + bigram_aos_log_probability[0] + "\n")
 
-    print("Q6: Compute the perplexity of the sentence above under each of the models.\n")
+    print("******Unigram Maximum Likelihood Log Probability******\n" + unigram_mle_log_probability[0] + "\n")
+    # print("******Bigram Maximum Likelihood Log Probability******\n" + bigram_mle_log_probability[0] + "\n")
+    # print("******Bigram Add One Smoothing Log Probability******\n" + bigram_aos_log_probability[0] + "\n")
+    #
+    # print("Q6: Compute the perplexity of the sentence above under each of the models.\n")
     print("******Unigram Maximum Likelihood Perplexity******\n" + str(unigram_mle_perplexity) + "\n")
-    print("******Bigram Maximum Likelihood Perplexity******\n" + str(bigram_mle_perplexity) + "\n")
-    print("******Bigram Add One Smoothing Perplexity******\n" + str(bigram_aos_perplexity) + "\n")
+
+    # print("******Bigram Maximum Likelihood Perplexity******\n" + str(bigram_mle_perplexity) + "\n")
+    # print("******Bigram Add One Smoothing Perplexity******\n" + str(bigram_aos_perplexity) + "\n")
 
 
 if __name__ == "__main__":
