@@ -11,6 +11,8 @@ sources = [path + "/train.txt", path + "/test.txt"]  # todo: change back to orig
 # sources = [path + "/train_small.txt", path + "/test_small.txt"]
 
 # This function is used to tokenize and pad data read from train.txt and test.txt
+
+tokenized_training_unk_splitted = []
 def pad_and_tokenize_file_data(file_path):
     tokenized_padded_data = []
     with open(file_path) as file:
@@ -21,7 +23,10 @@ def pad_and_tokenize_file_data(file_path):
                 tokenized_line = stripped_line.split()  # Tokenize the line by spaces
                 tokenized_line.insert(0, "<s>")  # Prepend start symbol
                 tokenized_line.insert(len(tokenized_line), '</s>')  # Append stop symbol
+
                 tokenized_padded_data.append(tokenized_line)  # Append the cleaned line to tokenized_padded_data
+                for word in tokenized_line:
+                    tokenized_training_unk_splitted.append(word)
     file.close()  # Close the file
     return tokenized_padded_data  # Return the dictionary
 
@@ -315,15 +320,22 @@ def main():
     q5_sentence_tokenized_after_unk = replace_singleton_with_unk_test(q5_sentence_tokenized, train_data_dict_after_unk)
 
     # Create test corpus for q5
+    # Get the parameters
+    parameters1 = []
     for word in q5_sentence_tokenized_after_unk:
         q5_sentence_dict[word] = 1 if word not in q5_sentence_dict else q5_sentence_dict[word] + 1
-
+        parameters1.append(word)
     train_unigram_counts_mle = copy.deepcopy(train_data_dict_after_unk)
     train_unigram_mle_q5 = get_unigram_mle(train_unigram_counts_mle)
 
     train_bigram_counts_aos = copy.deepcopy(train_bigram_counts_mle)
+
+    parameters2 = []
+    parameters3 = []
     for key in train_bigram_counts_aos:
         train_bigram_counts_aos[key] += 1
+        parameters2.append(key)
+        parameters3.append(key)
 
 
     train_bigram_mle_q5 = get_bigram(train_bigram_counts_mle, train_unigram_counts_mle)
@@ -349,40 +361,152 @@ def main():
     for key in test_bigram_aos_q5:
         test_bigram_aos_q5[key] = test_bigram_aos_q5[key] if key in train_bigram_aos_q5 else 0
 
-    log_probability_unigram_mle_q5_tuple = compute_log_probability_unigram_mle(test_unigram_mle_q5, q5_sentence_tokenized_after_unk)
+    # log_probability_unigram_mle_q5_tuple = compute_log_probability_unigram_mle(test_unigram_mle_q5, q5_sentence_tokenized_after_unk)
     # log_probability_bigram_mle_q5_tuple = compute_log_probability_bigram(test_bigram_mle_q5, test_bigram_mle_q5, q5_sentence_tokenized_after_unk)
     # log_probability_bigram_aos_q5_tuple = compute_log_probability_bigram(test_bigram_aos_q5, test_bigram_aos_q5, q5_sentence_tokenized_after_unk)
 
-    #***************************************************************************
-    # tokenized_Bigram = {}
-    #
-    # firstElement = True
-    # previousWord = ''
-    # for items in q5_sentence_tokenized_after_unk:
-    #     if firstElement:
-    #         firstElement = False
-    #         previousWord = items
+    #**************Test code****************************************
+
+    ###log probability for bigram model
+    print(
+        "The parameters needed for bigram model predication are each bigram so i look, look forward, forward to, to hearing, hearing your , your reply , reply and, and . ")
+    parameters_1 = []
+    bigram_probability = 1
+    calculations = ""
+    for i in range(len(q5_sentence_tokenized_after_unk) - 1):
+        bigram = q5_sentence_tokenized_after_unk[i] + "," + q5_sentence_tokenized_after_unk[i + 1]
+        if train_bigram_mle_q5.get(bigram) != None:
+            bigram_probability *= train_bigram_mle_q5[bigram]
+            calculations += str(train_bigram_mle_q5[bigram]) + ' * '
+        else:
+            parameters_1.append(bigram)
+    print(calculations + ' = log(' + str(bigram_probability) + ")")
+    print("the log probabilty based on the bigram model is: " + str(math.log(bigram_probability, 2)))
+    print("the parameters for bigram with 0 probability are below:")
+    print(parameters1)
+
+    ###log probability for bigram smoothing model
+    parameters_2 = []
+    bigram_smoothing_probability = 1
+    for i in range(len(q5_sentence_tokenized_after_unk) - 1):
+        bigram = q5_sentence_tokenized_after_unk[i] + "," + q5_sentence_tokenized_after_unk[i + 1]
+        if train_bigram_aos_q5.get(bigram) != None:
+            bigram_smoothing_probability *= train_bigram_aos_q5[bigram]
+            calculations += str(train_bigram_aos_q5[bigram]) + ' * '
+        else:
+            parameters_1.append(bigram)
+    print(calculations + ' = log(' + str(bigram_smoothing_probability) + ")")
+    print("the log probabilty based on the bigram add one smoothing model is: " + str(
+        math.log(bigram_smoothing_probability, 2)))
+    print("the parameters for bigram with add one smoothing with 0 probability are below:")
+    print(parameters2)
+
+    # lower perplexity corresponds to a better fit of the model
+    perplexity_sentence_uni = 0
+    for word in q5_sentence_tokenized_after_unk:
+        if train_unigram_mle_q5.get(word) != None:
+            perplexity_sentence_uni += math.log(train_unigram_mle_q5[word], 2)
+    perplexity_sentence_uni /= len(q5_sentence_tokenized_after_unk)
+    perplexity_sentence_uni = math.pow(2, -1 * perplexity_sentence_uni)
+    print("perplexity of the sentence under unigram model is:" + str(perplexity_sentence_uni))
+
+    perplexity_sentence_bigram = 0
+    for i in range(len(q5_sentence_tokenized_after_unk) - 1):
+        bigram = q5_sentence_tokenized_after_unk[i] + "," + q5_sentence_tokenized_after_unk[i + 1]
+        if train_bigram_mle_q5.get(bigram) != None:
+            perplexity_sentence_bigram += train_bigram_mle_q5[bigram]
+    perplexity_sentence_bigram /= (len(q5_sentence_tokenized_after_unk) - 1)
+    perplexity_sentence_bigram = math.pow(2, -1 * perplexity_sentence_bigram)
+    print("perplexity of the sentence under bigram model is:" + str(perplexity_sentence_bigram))
+    print(
+        "I notice that the perplexity of the sentence under the bigram model is significantly smaller then the perplexity of the sentence under the unigram model which tells me that the bigram model has a much better fit then the unigram model.")
+
+    perplexity_sentence_bigram_smooth = 0
+    for i in range(len(q5_sentence_tokenized_after_unk) - 1):
+        bigram = q5_sentence_tokenized_after_unk[i] + "," + q5_sentence_tokenized_after_unk[i + 1]
+        if train_bigram_aos_q5.get(bigram) != None:
+            perplexity_sentence_bigram_smooth += train_bigram_aos_q5[bigram]
+    perplexity_sentence_bigram_smooth /= (len(q5_sentence_tokenized_after_unk) - 1)
+    perplexity_sentence_bigram_smooth = math.pow(2, -1 * perplexity_sentence_bigram_smooth)
+    print("perplexity of the sentence under bigram model with add one smoothing is:" + str(
+        perplexity_sentence_bigram_smooth))
+    print(
+        "I notice that the perplexity of the sentence under the bigram model with add one smoothing is slightly bigger then the perplexity of the sentence under the bigram model which means that the bigram model without add one smoothing has a slightly better fit for the sentence.")
+    perplexity_test_uni = 0
+    for word in q5_sentence_tokenized_after_unk:
+        if train_unigram_mle_q5.get(word) != None and train_unigram_mle_q5.get(word) != 0.0:
+            # print(unigram_model[word])
+            perplexity_test_uni += math.log(train_unigram_mle_q5[word], 2)
+    print(len(q5_sentence_tokenized_after_unk))
+    perplexity_test_uni /= len(q5_sentence_tokenized_after_unk)
+    print("For the perplexity of the test set under the unigram model:")
+    print("l equals: " + str(perplexity_test_uni))
+    perplexity_test_uni = math.pow(2, -1 * perplexity_test_uni)
+    print("the perplexity is 2^(-l) which equals:" + str(perplexity_test_uni))
+    print(
+        "the probability is higher for the perplexity of the test set then the perplexity of the sentence because there are much more words in the test set then the sentence.")
+
+    perplexity_test_bigram = 0
+    for i in range(len(q5_sentence_tokenized_after_unk) - 1):
+        bigram = q5_sentence_tokenized_after_unk[i] + "," + q5_sentence_tokenized_after_unk[i + 1]
+        if train_bigram_mle_q5.get(bigram) != None and train_bigram_mle_q5.get(bigram) != 0.0:
+            # can't get the log of 0, its undefined
+            perplexity_test_bigram += train_bigram_mle_q5[bigram]
+    perplexity_test_bigram /= (len(q5_sentence_tokenized_after_unk) - 1)
+    perplexity_test_bigram = math.pow(2, -1 * perplexity_test_bigram)
+    print("The perplexity of the test set under the bigram model is: " + str(perplexity_test_bigram))
+
+    perplexity_test_bigram_smooth = 0
+    for i in range(len(q5_sentence_tokenized_after_unk) - 1):
+        bigram = q5_sentence_tokenized_after_unk[i] + "," + q5_sentence_tokenized_after_unk[i + 1]
+        if train_bigram_aos_q5.get(bigram) != None and train_bigram_aos_q5.get(bigram) != 0.0:
+            perplexity_test_bigram_smooth += train_bigram_aos_q5[bigram]
+    perplexity_test_bigram_smooth /= (len(q5_sentence_tokenized_after_unk) - 1)
+    perplexity_test_bigram_smooth = math.pow(2, -1 * perplexity_test_bigram_smooth)
+    print("perplexity of the test set under bigram model smoothing is:" + str(perplexity_test_bigram_smooth))
+
+    # print(total_number_of_bigrams)
+    # total_sum=0
+    # count=0
+    # for key in counts_of_bigram:
+    #     value = counts_of_bigram[key]
+    #     total_sum += value/total_number_of_bigrams
+    #     counts_of_bigram[key] = value/total_number_of_bigrams
+    #     if count == 15:
+    #         break
+    #     count+=1
+    #     print(str(key) + str(counts_of_bigram[key]))
+    # print(total_sum)#should equal 1
+    # print(counts_of_bigram)
+
+    # #add one smoothing
+    # counts_of_bigram_add1_smoothing = {}
+    # # total_number_of_bigrams = total_number_of_bigrams*2
+    # total_sum = 0
+    # count = 0
+    # for key in counts_of_bigram:
+    #     # count +=1
+    #     # if count == 50:
+    #     #     break
+    #     value = counts_of_bigram[key]
+    #     print(key)
+    #     counts_of_bigram_add1_smoothing[key] = ((value*total_number_of_bigrams) + 1)/(2*total_number_of_bigrams)
+    #     print(value*total_number_of_bigrams)
+    #     print(2*total_number_of_bigrams)
+    #     total_sum += counts_of_bigram_add1_smoothing[key]
+    # print(total_sum)
+
+    ######## no need for this trigram model.
+    # trigram_model = {}
+    # tokenized_training_unk_splitted = tokenized_training_unk.split()
+    # for i in range(len(tokenized_training_unk_splitted)-2):
+    #     trigram_key = tokenized_training_unk_splitted[i] + "," + tokenized_training_unk_splitted[i+1] + "," + tokenized_training_unk_splitted[i+2]
+    #     if trigram_model.get(trigram_key) == None:
+    #         trigram_model[trigram_key] = 1
     #     else:
-    #         if items + ' ' + previousWord in train_bigram_mle_q5:
-    #             tokenized_Bigram[items + ' ' + previousWord] = train_bigram_mle_q5[items + ' ' + previousWord]
-    #             previousWord = items
-    #         else:
-    #             tokenized_Bigram[items + ' ' + previousWord] = 0
-    #             previousWord = items
-    #
-    # print(tokenized_Bigram)
-    #
-    # log_probability_v2 = 0
-    # isZeroProbability = False
-    # for items in tokenized_Bigram:
-    #     if tokenized_Bigram[items] == 0:
-    #         isZeroProbability = True
-    #     else:
-    #         log_probability_v2 += math.log(tokenized_Bigram[items], 2)
-    # if isZeroProbability == False:
-    #     print(log_probability_v2)
-    # else:
-    #     print('ZERO')
+    #         trigram_model[trigram_key] = trigram_model[trigram_key] + 1
+
+    # print(trigram_model)
     #***************************************************************************
 
     M = len(q5_sentence_tokenized_after_unk)
@@ -479,7 +603,7 @@ def main():
 
     # todo: Am I even right????
 
-    print("******Unigram Maximum Likelihood Log Probability******\n" + log_probability_unigram_mle_q5_tuple[0] + "\n")
+    # print("******Unigram Maximum Likelihood Log Probability******\n" + log_probability_unigram_mle_q5_tuple[0] + "\n")
     # print("******Bigram Maximum Likelihood Log Probability******\n" + log_probability_bigram_mle_q5_tuple[0] + "\n")
     # print("******Bigram Add One Smoothing Log Probability******\n" + log_probability_bigram_aos_q5_tuple[0] + "\n")
 
