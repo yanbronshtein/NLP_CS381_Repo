@@ -103,13 +103,22 @@ def create_bigram_count_dict_single_sentence(tokenized_sentence):
 
 
 # Make bigram dictionary
-def get_bigram(tokenized_data, data_dict):
-    model = create_bigram_count_dict(tokenized_data)
+def get_bigram(bigram_counts, unigram_counts):
     # Assign bigram probabilities
+    model = copy.deepcopy(bigram_counts)
     for bigram_key in model:
         # Split by comma
         words = bigram_key.split()  # Get Wi-1 and Wi
-        model[bigram_key] /= data_dict[words[0]]
+        model[bigram_key] /= unigram_counts[words[0]]
+    return model
+
+def get_bigram_aos(bigram_counts_aos, unigram_counts):
+    model = copy.deepcopy(bigram_counts_aos)
+    V = len(unigram_counts)
+    for bigram_key in model:
+        words = bigram_key.split()
+        model[bigram_key] /= (unigram_counts[words[0]] + V)
+
     return model
 
 
@@ -316,17 +325,23 @@ def main():
     for word in q5_sentence_tokenized_after_unk:
         q5_sentence_dict[word] = 1 if word not in q5_sentence_dict else q5_sentence_dict[word] + 1
 
-    # create test_bigram
-
     train_unigram_counts_mle = copy.deepcopy(train_data_dict_after_unk)
     train_unigram_mle_q5 = get_unigram_mle(train_unigram_counts_mle)
-    print("Print train_unigram_mle_q5")
-    print(train_unigram_mle_q5)
-    test_bigram_counts_q5 = create_bigram_count_dict_single_sentence(q5_sentence_tokenized_after_unk)
-    # print("Test bigram counts q5")
-    # print(test_bigram_counts_q5)
-    train_unigram_mle = get_unigram_mle(train_unigram_counts_mle)
 
+    train_bigram_counts_aos = copy.deepcopy(train_bigram_counts_mle)
+    for key in train_bigram_counts_aos:
+        train_bigram_counts_aos[key] += 1
+
+    test_bigram_counts_mle_q5 = create_bigram_count_dict_single_sentence(q5_sentence_tokenized_after_unk)
+
+    test_bigram_counts_aos_q5 = copy.deepcopy(test_bigram_counts_mle_q5)
+    for key in test_bigram_counts_aos_q5:
+        test_bigram_counts_aos_q5[key] += 1
+
+
+    train_bigram_mle_q5 = get_bigram(train_bigram_counts_mle, train_unigram_counts_mle)
+    train_bigram_aos_q5 = get_bigram_aos(train_bigram_counts_aos, train_unigram_counts_mle)
+    print("HELLLLOOOO")
     # modified_test_bigram_mle = copy.deepcopy(test_bigram_counts_q5)
     # for key in modified_test_bigram_mle:
     #     if key not in train_bigram_counts_mle:
@@ -334,16 +349,14 @@ def main():
 
     # Create the train counts for add-one-smoothing
     # Get this by adding one to all the counts of the maximum likelihood estimate bigram
-    train_bigram_counts_aos = copy.deepcopy(train_bigram_counts_mle)
-    for key in train_bigram_counts_aos:
-        train_bigram_counts_aos[key] += 1
-
-
-    test_bigram_counts_mle_q5 = get_bigram_single_sentence_mle(q5_sentence_tokenized_after_unk, q5_sentence_dict)
 
 
 
-    train_bigram_aos = get_bigram(tokenized_train_data_after_unk, train_data_dict_after_unk)
+    # test_bigram_counts_mle_q5 = get_bigram_single_sentence_mle(q5_sentence_tokenized_after_unk, q5_sentence_dict)
+
+
+
+    # train_bigram_aos = get_bigram(tokenized_train_data_after_unk, train_data_dict_after_unk)
     # test_bigram_aos = get_bigram_single_sentence_aos(tokenized_train_data_after_unk, q5_sentence_dict)
     # Calculate log probability of the three models
 
