@@ -2,8 +2,8 @@ import copy
 import math
 
 # Source paths of train.txt and test.txt
-path = input("Please enter the current directory path")
-# path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"  # todo: Use relative path instead
+# path = input("Please enter the current directory path")
+path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"  # todo: Use relative path instead
 
 sources = [path + "/train.txt", path + "/test.txt"]  # todo: change back to original man
 
@@ -243,88 +243,78 @@ def compute_perplexity(log_probability, M):
 
 # This is the main function
 def main():
-
-    # Preprocessing
+    # ****Preprocessing for train.txt****
     tokenized_train_data_before_unk = pad_and_tokenize_file_data(sources[0])
-
-
+    # Create training data from preprocessed data
     train_data_dict_before_unk = populate_dict(tokenized_train_data_before_unk)
+    # Replace all singletons in train data with unk
+    tokenized_train_data_after_unk = replace_singleton_with_unk_train(tokenized_train_data_before_unk,train_data_dict_before_unk )
+
+    # create the train_data_dict after replacing all singletons with "<unk>"
+    train_data_dict_after_unk = populate_dict(tokenized_train_data_after_unk)
     # create the train_data_dict_after_unk using
     tokenized_train_data_after_unk = replace_singleton_with_unk_train(tokenized_train_data_before_unk, train_data_dict_before_unk)
 
-    train_data_dict_after_unk = populate_dict(tokenized_train_data_after_unk)
-
+    # ****Preprocessing for test.txt****
     tokenized_test_data_before_unk = pad_and_tokenize_file_data(sources[1])
-
+    # Create a dictionary before replacement of tokens seen in training but not testing with "<unk>"
     test_dict_before_unk = populate_dict(tokenized_test_data_before_unk)
-
-    # Used for Q2
-    total_train_token_count_after_unk = count_tokens(train_data_dict_after_unk)
-
-    # Used for Q1
-    unique_train_token_count_after_unk = len(train_data_dict_after_unk)
-
-    # tokenized_test_data_after_unk = replace_singleton_with_unk_test(tokenized_test_data_before_unk, train_data_dict_after_unk) #todo: change back
+    # Replace tokens in test data with "<unk>" if the were unseen in training
     tokenized_test_data_after_unk = replace_singleton_with_unk_test(tokenized_test_data_before_unk, train_data_dict_before_unk)
-
-
+    #create test_dict from preprocessed data
     test_dict_after_unk = populate_dict(tokenized_test_data_after_unk)
 
-    # Used for Q3
-    total_test_token_count_before_unk = count_tokens(test_dict_before_unk)  # Calculate the number of tokens in test data
+    # ************** Used for Q1 **************
+    unique_train_token_count_after_unk = len(train_data_dict_after_unk)
 
+    #************** Used for Q2 **************
+    total_train_token_count_after_unk = count_tokens(train_data_dict_after_unk)
+
+    #************** Used for Q3 **************
+    total_test_token_count_before_unk = count_tokens(test_dict_before_unk)  # Calculate the number of tokens in test data
     unique_test_token_count_before_unk = len(test_dict_before_unk)  # Length of test corpus is the number of unique tokens
     # found in testing before replacement(test_dict_before_unk) with <unk> for words found in testing but not in training
 
-    # Used for Q3a
-
-    total_count_tokens_in_test_not_in_train = 0
-    counting = 0
+    total_count_tokens_in_test_not_in_train = 0 # Used for Q3a
+    count_word_types_testing_not_training = 0 # Used for Q3b
     for key in test_dict_before_unk:
         if key not in train_data_dict_before_unk:
             total_count_tokens_in_test_not_in_train += test_dict_before_unk[key]
-            counting += 1
+            count_word_types_testing_not_training += 1
 
-    # Used for Q3b
-    count_unks_testing = test_dict_after_unk["<unk>"]
 
-    # Used for Q3
-    percent_word_tokens_testing = (count_unks_testing / unique_test_token_count_before_unk) * 100  # The numerator
-    # should be the same as with part a
-
-    #Used for Q4
+    #************** Used for Q4 **************
+    # This training bigram counts is used for Q4 onwards.
     train_bigram_counts_mle = create_bigram_count_dict(tokenized_train_data_after_unk)
-    # print("Train bigram counts")
-    # print(train_bigram_counts_mle)
-    test_bigram_counts_mle = create_bigram_count_dict(tokenized_test_data_after_unk)
-    filtered_test_bigram = filter_test_bigram(train_bigram_counts_mle, test_bigram_counts_mle)
-
+    # This test bigram counts is only used for Q4 because it only applies to data from test.txt
+    test_bigram_counts_mle_q4 = create_bigram_count_dict(tokenized_test_data_after_unk)
+    #This bigram only contains bigrams in testing but not in training
+    filtered_test_bigram_q4 = filter_test_bigram(train_bigram_counts_mle, test_bigram_counts_mle_q4)
+    # The count of all the tokens in filtered_test_bigram_q4 gives the number of bigrams in testing but not in training
     # Used for Q4a
-    count_total_bigrams_in_test_but_not_train = count_tokens(filtered_test_bigram)
-
+    count_total_bigrams_in_test_but_not_train_q4 = count_tokens(filtered_test_bigram_q4)
     # Used for Q4a
-    count_total_test_bigram_counts = count_tokens(test_bigram_counts_mle)
-
-
+    count_total_test_bigram_counts = count_tokens(test_bigram_counts_mle_q4)
     # Used for Q4b
-    count_unique_bigrams_in_test_but_not_train = len(filtered_test_bigram)
-
-
+    count_unique_bigrams_in_test_but_not_train = len(filtered_test_bigram_q4)
     # Used for Q4b
-    count_total_unique_bigrams = len(test_bigram_counts_mle)
-    # Created tokenized sentence(testing data) and the testing corpus
+    count_total_unique_bigrams = len(test_bigram_counts_mle_q4)
 
     #***** Question 5 ******
+    # Preprocess the given sentence
     q5_sentence_tokenized = process_sentence("I look forward to hearing your reply .")
     q5_sentence_dict = {}
+    # Replace any tokens in the new sentence with "<unk>" if they do not appear in training
     q5_sentence_tokenized_after_unk = replace_singleton_with_unk_test(q5_sentence_tokenized, train_data_dict_after_unk)
 
     # Create test corpus for q5
     # Get the parameters
     parameters1 = []
-    for word in q5_sentence_tokenized_after_unk:
-        q5_sentence_dict[word] = 1 if word not in q5_sentence_dict else q5_sentence_dict[word] + 1
-        parameters1.append(word)
+    # for word in q5_sentence_tokenized_after_unk:
+    #     q5_sentence_dict[word] = 1 if word not in q5_sentence_dict else q5_sentence_dict[word] + 1
+    #     parameters1.append(word)
+
+
     train_unigram_counts_mle = copy.deepcopy(train_data_dict_after_unk)
     train_unigram_mle_q5 = get_unigram_mle(train_unigram_counts_mle)
 
@@ -577,8 +567,8 @@ def main():
           str(total_count_tokens_in_test_not_in_train/total_test_token_count_before_unk) + "%\n")
 
     print("b). Percentage of word types in test corpus that did not occur in training \n" +
-          str(counting) + "/" + str(unique_test_token_count_before_unk) +
-          " OR \n" + str(percent_word_tokens_testing) + "%\n")
+          str(count_word_types_testing_not_training) + "/" + str(unique_test_token_count_before_unk) +
+          " OR \n" + str(count_word_types_testing_not_training / unique_test_token_count_before_unk) + "%\n")
 
     print("Q4: Now replace singletons in the training data with <unk> symbol and map words (in the test corpus)\n "
           "not observed in training to <unk>. \n What percentage of bigrams (bigram types and bigram tokens) "
@@ -586,8 +576,8 @@ def main():
           "corpus did not occur in training (treat <unk> as a regular token that has been observed).")
 
     print("a). Percentage of bigram tokens in the test corpus that did not occur in training \n " +
-          str(count_total_bigrams_in_test_but_not_train) + "/" + str(count_total_test_bigram_counts) +
-          " OR \n" + str(count_total_bigrams_in_test_but_not_train / count_total_test_bigram_counts * 100) + "%\n")
+          str(count_total_bigrams_in_test_but_not_train_q4) + "/" + str(count_total_test_bigram_counts) +
+          " OR \n" + str(count_total_bigrams_in_test_but_not_train_q4 / count_total_test_bigram_counts * 100) + "%\n")
 
     print("b). Percentage of bigram types in the test corpus that did not occur in training \n " +
           str(count_unique_bigrams_in_test_but_not_train) + "/" + str(count_total_unique_bigrams) +

@@ -89,7 +89,17 @@ trained_text_splitted = trained_text_padded.split()
 unk_replaced_test = ""  # testing set with unk
 total_number_of_words = 0
 total_number_of_unks = 0
+
+unique_words_in_test_set = {}
+unique_unks = 0
 for word in test_text_splitted:
+    if unique_words_in_test_set.get(word) == None:
+        unique_words_in_test_set[word] = 1
+        if word not in trained_text_splitted:
+            unique_unks += 1
+    else:
+        unique_words_in_test_set[word] += 1
+
     total_number_of_words += 1
     # if word[0:3] == '<s>':
     #     word = word[3:]
@@ -102,11 +112,15 @@ for word in test_text_splitted:
         continue
     unk_replaced_test += word + " "
 # print(unk_replaced_test)
-print("total number of words in test set is: " + str(total_number_of_words))
-print("total number of unks in test set is: " + str(total_number_of_unks))
-print("the percentage of word tokens and word types in the test corpus that did not occur in training is" +
+print("total number of word types in test set is" + str(len(unique_words_in_test_set)))
+print("total number of unique word types that become unks in test set are" + str(unique_unks))
+print("the percentage of word tokens in the test corpus that did not occur in training is" +
+      str((unique_unks / len(unique_words_in_test_set)) * 100) + '%')
+print(len(unique_words_in_test_set))
+print("total number of word tokens in test set is: " + str(total_number_of_words))
+print("total number of word tokens that become unks in test set is: " + str(total_number_of_unks))
+print("the percentage of word tokens in the test corpus that did not occur in training is" +
       str((total_number_of_unks / total_number_of_words) * 100) + '%')
-
 ################ unigram omdels
 
 unigram_model = {}
@@ -223,6 +237,7 @@ uni_probability = 1
 calculations = ""
 parameters_0 = []
 ##log probability for unigram model
+
 for word in sentence_tokenized:
     if unigram_model.get(word) != None:
         uni_probability *= unigram_model[word]
@@ -266,6 +281,70 @@ print("the log probabilty based on the bigram add one smoothing model is: " + st
     math.log(bigram_smoothing_probability, 2)))
 print("the parameters for bigram with add one smoothing with 0 probability are below:")
 print(parameters_0)
+
+# lower perplexity corresponds to a better fit of the model
+perplexity_sentence_uni = 0
+for word in sentence_tokenized:
+    if unigram_model.get(word) != None:
+        perplexity_sentence_uni += math.log(unigram_model[word], 2)
+perplexity_sentence_uni /= len(sentence_tokenized)
+perplexity_sentence_uni = math.pow(2, -1 * perplexity_sentence_uni)
+print("perplexity of the sentence under unigram model is:" + str(perplexity_sentence_uni))
+
+perplexity_sentence_bigram = 0
+for i in range(len(sentence_tokenized) - 1):
+    bigram = sentence_tokenized[i] + "," + sentence_tokenized[i + 1]
+    if bigram_model_maximum.get(bigram) != None:
+        perplexity_sentence_bigram += bigram_model_maximum[bigram]
+perplexity_sentence_bigram /= (len(sentence_tokenized) - 1)
+perplexity_sentence_bigram = math.pow(2, -1 * perplexity_sentence_bigram)
+print("perplexity of the sentence under bigram model is:" + str(perplexity_sentence_bigram))
+print(
+    "I notice that the perplexity of the sentence under the bigram model is significantly smaller then the perplexity of the sentence under the unigram model which tells me that the bigram model has a much better fit then the unigram model.")
+
+perplexity_sentence_bigram_smooth = 0
+for i in range(len(sentence_tokenized) - 1):
+    bigram = sentence_tokenized[i] + "," + sentence_tokenized[i + 1]
+    if bigram_model_maximum_smoothing.get(bigram) != None:
+        perplexity_sentence_bigram_smooth += bigram_model_maximum_smoothing[bigram]
+perplexity_sentence_bigram_smooth /= (len(sentence_tokenized) - 1)
+perplexity_sentence_bigram_smooth = math.pow(2, -1 * perplexity_sentence_bigram_smooth)
+print(
+    "perplexity of the sentence under bigram model with add one smoothing is:" + str(perplexity_sentence_bigram_smooth))
+print(
+    "I notice that the perplexity of the sentence under the bigram model with add one smoothing is slightly bigger then the perplexity of the sentence under the bigram model which means that the bigram model without add one smoothing has a slightly better fit for the sentence.")
+perplexity_test_uni = 0
+for word in test_text_splitted:
+    if unigram_model.get(word) != None and unigram_model.get(word) != 0.0:
+        # print(unigram_model[word])
+        perplexity_test_uni += math.log(unigram_model[word], 2)
+print(len(test_text_splitted))
+perplexity_test_uni /= len(test_text_splitted)
+print("For the perplexity of the test set under the unigram model:")
+print("l equals: " + str(perplexity_test_uni))
+perplexity_test_uni = math.pow(2, -1 * perplexity_test_uni)
+print("the perplexity is 2^(-l) which equals:" + str(perplexity_test_uni))
+print(
+    "the probability is higher for the perplexity of the test set then the perplexity of the sentence because there are much more words in the test set then the sentence.")
+
+perplexity_test_bigram = 0
+for i in range(len(test_text_splitted) - 1):
+    bigram = test_text_splitted[i] + "," + test_text_splitted[i + 1]
+    if bigram_model_maximum.get(bigram) != None and bigram_model_maximum.get(bigram) != 0.0:
+        # can't get the log of 0, its undefined
+        perplexity_test_bigram += bigram_model_maximum[bigram]
+perplexity_test_bigram /= (len(test_text_splitted) - 1)
+perplexity_test_bigram = math.pow(2, -1 * perplexity_test_bigram)
+print("The perplexity of the test set under the bigram model is: " + str(perplexity_test_bigram))
+
+perplexity_test_bigram_smooth = 0
+for i in range(len(test_text_splitted) - 1):
+    bigram = test_text_splitted[i] + "," + test_text_splitted[i + 1]
+    if bigram_model_maximum_smoothing.get(bigram) != None and bigram_model_maximum_smoothing.get(bigram) != 0.0:
+        perplexity_test_bigram_smooth += bigram_model_maximum_smoothing[bigram]
+perplexity_test_bigram_smooth /= (len(test_text_splitted) - 1)
+perplexity_test_bigram_smooth = math.pow(2, -1 * perplexity_test_bigram_smooth)
+print("perplexity of the test set under bigram model smoothing is:" + str(perplexity_test_bigram_smooth))
 
 # print(total_number_of_bigrams)
 # total_sum=0
