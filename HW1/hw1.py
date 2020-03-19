@@ -2,11 +2,10 @@ import copy
 import math
 
 # Source paths of train.txt and test.txt
-# path = input("Please enter the current directory path.\n"
-#              "Please note that it will take approximately 15 seconds for the results to display\n")
-path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"  # todo: Use relative path instead
+path = input("Please enter the current directory path.\n"
+             "Please note that it will take approximately 15 seconds for the results to display\n")
 
-sources = [path + "/train.txt", path + "/test.txt"]  # todo: change back to original man
+sources = [path + "/train.txt", path + "/test.txt"]  
 
 
 # sources = [path + "/train_small.txt", path + "/test_small.txt"]
@@ -112,8 +111,10 @@ def create_bigram_count_dict_single_sentence(tokenized_sentence):
 def get_bigram(bigram_counts, unigram_counts):
     # Assign bigram probabilities
     model = copy.deepcopy(bigram_counts)
+    sara = 0
     for bigram_key in model:
-        # Split by comma
+        # print(bigram_key + "count is: " + str(sara) + "\n")
+        sara += 1
         words = bigram_key.split()  # Get Wi-1 and Wi
         model[bigram_key] /= unigram_counts[words[0]]
     return model
@@ -224,8 +225,8 @@ def compute_log_probability_bigram(train_model, test_model, tokenized_sentence):
     if not is_undefined:
         solution_string = solution_string[0: len(solution_string) - 1] + " = " + str(probability)
     else:
-        solution_string[0: len(solution_string) - 2] + " = " + str("-NaN")
-        probability = -math.NaN
+        solution_string[0: len(solution_string) - 2] + " = " + str("NaN")
+        probability = -math.nan
 
     return solution_string, probability
 
@@ -409,7 +410,7 @@ def main():
     if not log_probability_undefined:
         log_probability_string_bigram_mle_q5 += "\n= " + str(bigram_mle_log_probability_q5) + "\n"
     else:
-        log_probability_string_bigram_mle_q5 += "\n= -NaN\n"
+        log_probability_string_bigram_mle_q5 += "\n= NaN\n"
 
 
     # ******Log Probability for bigram_aos******
@@ -435,6 +436,102 @@ def main():
     perplexity_string_bigram_mle_q5 = str(compute_perplexity(bigram_mle_log_probability_q5, M)) if "NaN" not in log_probability_string_bigram_mle_q5 else "NaN"
     perplexity_string_bigram_aos_q5 = str(compute_perplexity(bigram_aos_log_probability_q5, M)) if "NaN" not in log_probability_string_bigram_aos_q5 else "NaN"
 
+    # ******Question 7******
+
+    # test_dict_after_unk
+
+
+    # Create test unigram_mle
+    test_unigram_mle_q7 = {}
+    test_unigram_counts_mle_q7 = copy.deepcopy(test_dict_after_unk)
+
+    num_tokens_q7 = count_tokens(test_dict_after_unk)
+    for token in test_unigram_counts_mle_q7:
+        test_unigram_mle_q7[token] = test_unigram_counts_mle_q7[token] / num_tokens_q7
+
+    # Create test bigram_mle counts
+    test_bigram_counts_mle_q7 = create_bigram_count_dict(tokenized_test_data_after_unk)
+
+    # Create test bigram_aos counts
+    test_bigram_counts_aos_q7 = copy.deepcopy(test_bigram_counts_mle_q7)
+
+    for key in test_bigram_counts_aos_q7:
+        test_bigram_counts_aos_q7[key] += 1
+
+
+    # Create test bigram_mle
+    test_bigram_mle_q7 = get_bigram(test_bigram_counts_mle_q7, test_unigram_counts_mle_q7)
+
+    # Create test bigram_aos
+    test_bigram_aos_q7 = get_bigram_aos(test_bigram_counts_aos_q7, test_unigram_counts_mle_q7)
+
+    # for key in test_unigram_mle_q7:
+    #     test_unigram_mle_q7[key] = test_unigram_mle_q7[key] if key in train_unigram_counts_mle_q5 else 0.0
+
+    for key in test_bigram_mle_q7:
+        test_bigram_mle_q7[key] = test_bigram_mle_q7[key] if key in train_bigram_counts_mle else 0.0
+
+    for key in test_bigram_aos_q7:
+        if key in train_bigram_aos_q5:
+            test_bigram_aos_q7[key] = test_bigram_aos_q7[key]
+        else:
+            test_bigram_aos_q7[key] = 1 / (
+                        test_unigram_counts_mle_q7[key.split()[0]] + num_tokens_q7 )
+
+    # ******Log Probability for unigram_mle******
+    log_probability_string_unigram_mle_q7 = ""
+
+
+    unigram_mle_log_probability_q7 = 0
+    # log_probability_undefined = False  # Flag needed if we have to take log(0)
+    for key in test_unigram_mle_q7:
+        if key in train_unigram_mle_q5:
+            unigram_mle_log_probability_q7 += math.log(train_unigram_mle_q5[key])
+            log_probability_string_unigram_mle_q7 += " + " + str(math.log(train_unigram_mle_q5[key]))
+
+    # if not log_probability_undefined:
+    #     log_probability_string_unigram_mle_q7 += "\n= " + str(unigram_mle_log_probability_q7) + "\n"
+    # else:
+    #     log_probability_string_unigram_mle_q7 += "\n= NaN\n"
+
+    # ******Log Probability for bigram_mle******
+    log_probability_string_bigram_mle_q7 = ""
+    bigram_mle_log_probability_q7 = 0
+    log_probability_undefined = False  # Flag needed if we have to take log(0)
+    for key in test_bigram_mle_q7:
+        if key in train_bigram_mle_q5 and train_bigram_mle_q5[key] != 0:
+            bigram_mle_log_probability_q7 += math.log(train_bigram_mle_q5[key])
+            log_probability_string_bigram_mle_q7 += " + " + str(math.log(train_bigram_mle_q5[key]))
+        else:
+            log_probability_undefined = True
+            log_probability_string_bigram_mle_q7 += " + log(0)"
+
+    if not log_probability_undefined:
+        log_probability_string_bigram_mle_q7 += "\n= " + str(bigram_mle_log_probability_q7) + "\n"
+    else:
+        log_probability_string_bigram_mle_q7 += "\n= NaN\n"
+
+    # ******Log Probability for bigram_aos******
+    log_probability_string_bigram_aos_q7 = ""
+    bigram_aos_log_probability_q7 = 0
+    log_probability_undefined = False  # Flag needed if we have to take log(0)
+    for key in test_bigram_aos_q7:
+        if key in train_bigram_aos_q5:
+            bigram_aos_log_probability_q7 += math.log(train_bigram_aos_q5[key])
+            log_probability_string_bigram_aos_q7 += " + " + str(math.log(train_bigram_aos_q5[key]))
+
+    if not log_probability_undefined:
+        log_probability_string_bigram_aos_q7 += "\n= " + str(bigram_aos_log_probability_q7) + "\n"
+    else:
+        log_probability_string_bigram_aos_q7 += "\n= NaN\n"
+
+    M = len(test_dict_after_unk)
+    perplexity_string_unigram_mle_q7 = str(compute_perplexity(unigram_mle_log_probability_q7,
+                                                              M)) if "NaN" not in log_probability_string_unigram_mle_q7 else "NaN"
+    perplexity_string_bigram_mle_q7 = str(compute_perplexity(bigram_mle_log_probability_q7,
+                                                             M)) if "NaN" not in log_probability_string_bigram_mle_q7 else "NaN"
+    perplexity_string_bigram_aos_q7 = str(compute_perplexity(bigram_aos_log_probability_q7,
+                                                             M)) if "NaN" not in log_probability_string_bigram_aos_q7 else "NaN"
 
     print("Q1: How many word types (unique words) are there in the training corpus?\n "
           "Please include the padding symbols and the unknown token.\n" + str(unique_train_token_count_after_unk))
@@ -505,6 +602,14 @@ def main():
     print("******Unigram Maximum Likelihood Perplexity******\n" + perplexity_string_unigram_mle_q5 + "\n")
     print("******Bigram Maximum Likelihood Perplexity******\n" + perplexity_string_bigram_mle_q5 + "\n")
     print("******Bigram Add One Smoothing Perplexity******\n" + perplexity_string_bigram_aos_q5 + "\n")
+
+    print("Q7: Compute the perplexity of the entire test corpus under each of the models.\n"
+          "Discuss the differences in the results you obtained.")
+    print("******Unigram Maximum Likelihood Perplexity******\n" + perplexity_string_unigram_mle_q7 + "\n")
+    print("******Bigram Maximum Likelihood Perplexity******\n" + perplexity_string_bigram_mle_q7 + "\n")
+    print("******Bigram Add One Smoothing Perplexity******\n" + perplexity_string_bigram_aos_q7 + "\n")
+    print("Like before, the Bigram Maximum Likelihood is susceptible to NaN perplexity because of the susceptibility to"
+          "0 probabilities. Bigram with add one smoothing has significantly higher perplexity than the unigram")
 
 
 if __name__ == "__main__":
