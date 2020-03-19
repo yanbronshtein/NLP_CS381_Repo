@@ -1,0 +1,104 @@
+Part 1:
+We are given the following corpus, modified from the one in the chapter
+<s> I am Sam </s>
+<s> Sam I am </s>
+<s> I do not like green eggs and Sam </s>
+
+Using a bigram language model with add-one_smoothing, what is P(Sam|am? Include <s> and
+</s> in your counts just like any other token
+
+P(Sam|am) = (Count(Wi-1, Wi) + 1)/ (Count(Wi-1) + V) = 
+(Count(am, Sam) + 1)/ (Count(am) + 11) = (2 + 1) / (3 + 11) = 3/14 
+
+
+Q1: How many word types (unique words) are there in the training corpus?
+ Please include the padding symbols and the unknown token.
+41739
+Q2:How many word tokens are there in the training corpus?
+2568210
+Q3: What percentage of word tokens and word types in the test corpus did not occur in training
+ (before you mapped the unknown words to <unk> in training and test data)? 
+Please include the padding symbols in your calculations.
+a). Percentage of word tokens in test corpus not in training 
+46/2869 OR 
+0.01603346113628442%
+
+b). Percentage of word types in test corpus that did not occur in training 
+45/1249 OR 
+0.036028823058446756%
+
+Q4: Now replace singletons in the training data with <unk> symbol and map words (in the test corpus)
+ not observed in training to <unk>. 
+ What percentage of bigrams (bigram types and bigram tokens) in the test corpus did not occur in training (treat <unk> as a regular token that has been observed).
+a). Percentage of bigram tokens in the test corpus that did not occur in training 
+ 662/2769 OR 
+23.907547851209824%
+
+b). Percentage of bigram types in the test corpus that did not occur in training 
+ 657/2390 OR 
+27.489539748953973%
+
+Q5: Compute the log probability of the following sentence under the three models (ignore capitalization
+ and pad each sentence as described above). Please list all of the parameters required to compute the
+probabilities and show the complete calculation. Which of the parameters have zero values under each model?
+ Use log base 2 in your calculations. Map words not observed in the training corpus to the <unk> token.
+I look forward to hearing your reply .
+
+******Unigram Maximum Likelihood Log Probability******
+ + -3.2457942511792446 + -5.85776184360441 + -8.340354780213262 + -8.597512394454396 + -3.8797672731007697 + -9.416385464184662 + -7.6545756231619455 + -12.193770358687937 + -3.374832894191648 + -3.2457942511792446
+= -65.80654913395752
+
+Parameters needed:
+
+['<s>', 'i', 'look', 'forward', 'to', 'hearing', 'your', 'reply', '.', '</s>']
+******Bigram Maximum Likelihood Log Probability******
+ + -3.9090274964483473 + -6.192907671442852 + -2.89200441132005 + -1.556037135706985 + -9.087192973820649 + log(0) + log(0) + log(0) + -0.058641244026237285
+= NaN
+
+Parameters needed:
+
+['<s> i', 'i look', 'look forward', 'forward to', 'to hearing', 'hearing your', 'your reply', 'reply .', '. </s>']
+******Bigram Add One Smoothing Log Probability******
+ + -4.25734626837158 + -8.02857742595852 + -7.098422862977469 + -6.035362992615106 + -9.513477398982824 + -0.44720501778596516
+= -35.38039196669147
+
+Parameters needed:
+
+['<s> i', 'i look', 'look forward', 'forward to', 'to hearing', 'hearing your', 'your reply', 'reply .', '. </s>']
+Parameters with 0 probabilities (Notice that only for Bigram MLE:
+
+Unigram MLE:
+
+Bigram MLE:
+
+<hearing, your>
+
+<your, reply>
+
+<reply, .>
+
+Bigram AOS:
+
+Q6: Compute the perplexity of the sentence above under each of the models.
+
+******Unigram Maximum Likelihood Perplexity******
+95.71379145929144
+
+******Bigram Maximum Likelihood Perplexity******
+NaN
+
+******Bigram Add One Smoothing Perplexity******
+11.615981830259495
+
+Q7: Compute the perplexity of the entire test corpus under each of the models.
+Discuss the differences in the results you obtained.
+******Unigram Maximum Likelihood Perplexity******
+713.3702624490087
+
+******Bigram Maximum Likelihood Perplexity******
+NaN
+
+******Bigram Add One Smoothing Perplexity******
+2313.259244256722
+
+Like before, the Bigram Maximum Likelihood is susceptible to NaN perplexity because of the susceptibility to0 probabilities. Bigram with add one smoothing has significantly higher perplexity than the unigram
