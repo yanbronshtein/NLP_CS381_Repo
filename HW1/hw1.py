@@ -2,7 +2,8 @@ import copy
 import math
 
 # Source paths of train.txt and test.txt
-# path = input("Please enter the current directory path")
+# path = input("Please enter the current directory path.\n"
+#              "Please note that it will take approximately 15 seconds for the results to display\n")
 path = "/Users/yanivbronshtein/Coding/QueensCollege/NLP_CS381_Repo/HW1"  # todo: Use relative path instead
 
 sources = [path + "/train.txt", path + "/test.txt"]  # todo: change back to original man
@@ -195,8 +196,8 @@ def compute_log_probability_unigram_mle(model, tokenized_sentence):
     if not is_undefined:
         solution_string = solution_string[0: len(solution_string) - 1] + " = " + str(probability)
     else:
-        solution_string = solution_string[0: len(solution_string) - 2] + " = -inf"
-        probability = -math.inf
+        solution_string = solution_string[0: len(solution_string) - 2] + " = NaN"
+        probability = -math.nan
 
     return solution_string, probability
 
@@ -223,21 +224,16 @@ def compute_log_probability_bigram(train_model, test_model, tokenized_sentence):
     if not is_undefined:
         solution_string = solution_string[0: len(solution_string) - 1] + " = " + str(probability)
     else:
-        solution_string[0: len(solution_string) - 2] + " = " + str("-inf")
-        probability = -math.inf
+        solution_string[0: len(solution_string) - 2] + " = " + str("-NaN")
+        probability = -math.NaN
 
     return solution_string, probability
 
 
 # PP(W) = P(W1W2..Wn) ^(-1/n)
-#todo: Do we use the log probability
 def compute_perplexity(log_probability, M):
-    L = 0
-    try:
-        L = log_probability / M
-        return 2 ** -L
-    except OverflowError:
-        return math.inf
+    L = log_probability / M
+    return 2 ** -L
 
 
 
@@ -309,11 +305,10 @@ def main():
 
     #******Create test corpus for q5******
     # Get the parameters
-    parameters1 = []
+    params_unigram_mle_q5 = []
     for word in q5_sentence_tokenized_after_unk:
         q5_sentence_dict[word] = 1 if word not in q5_sentence_dict else q5_sentence_dict[word] + 1
-        parameters1.append(word)
-
+        params_unigram_mle_q5.append(word)
     #****** Training of unigram_mle, bigram_mle, and bigram_aos models ******
     # Create Unigram counts. This information has already been generated in the train_data_dict_after unk for the
     # previous questions
@@ -325,12 +320,10 @@ def main():
     # Create the bigram with add-one-smoothing counts by adding one to all the bigram_mle counts
     train_bigram_counts_aos_q5 = copy.deepcopy(train_bigram_counts_mle)
 
-    parameters2 = []
-    parameters3 = []
+
     for key in train_bigram_counts_aos_q5:
         train_bigram_counts_aos_q5[key] += 1
-        parameters2.append(key)
-        parameters3.append(key)
+
 
     # Train the bigram_mle using the unigram counts and the bigram counts_mle
     train_bigram_mle_q5 = get_bigram(train_bigram_counts_mle, train_unigram_counts_mle_q5)
@@ -350,8 +343,12 @@ def main():
 
     # Create test bigram_aos counts
     test_bigram_counts_aos_q5 = copy.deepcopy(test_bigram_counts_mle_q5)
+    params_bigram_aos_q5 = []
+    params_bigram_mle_q5 = []
     for key in test_bigram_counts_aos_q5:
         test_bigram_counts_aos_q5[key] += 1
+        params_bigram_mle_q5.append(key)
+        params_bigram_aos_q5.append(key)
 
 
     #Create test bigram_mle
@@ -378,7 +375,7 @@ def main():
     #******Log Probability for unigram_mle******
     log_probability_string_unigram_mle_q5 = ""
 
-    params_1 = []  # The parameters needed for bigram model prediction
+
     q5_sentence_length = len(q5_sentence_tokenized_after_unk)
 
     unigram_mle_log_probability_q5 = 0
@@ -394,7 +391,7 @@ def main():
     if not log_probability_undefined:
         log_probability_string_unigram_mle_q5 += "\n= " + str(unigram_mle_log_probability_q5) + "\n"
     else:
-        log_probability_string_unigram_mle_q5 += "\n= -INF\n"
+        log_probability_string_unigram_mle_q5 += "\n= NaN\n"
 
 
     # ******Log Probability for bigram_mle******
@@ -412,7 +409,7 @@ def main():
     if not log_probability_undefined:
         log_probability_string_bigram_mle_q5 += "\n= " + str(bigram_mle_log_probability_q5) + "\n"
     else:
-        log_probability_string_bigram_mle_q5 += "\n= -INF\n"
+        log_probability_string_bigram_mle_q5 += "\n= -NaN\n"
 
 
     # ******Log Probability for bigram_aos******
@@ -427,16 +424,16 @@ def main():
     if not log_probability_undefined:
         log_probability_string_bigram_aos_q5 += "\n= " + str(bigram_aos_log_probability_q5) + "\n"
     else:
-        log_probability_string_bigram_aos_q5 += "\n= -INF\n"
+        log_probability_string_bigram_aos_q5 += "\n= NaN\n"
 
 
 
     # ******Perplexity Calculations for Question 6******
 
     M = len(q5_sentence_tokenized_after_unk)
-    perplexity_string_unigram_mle_q5 = str(compute_perplexity(unigram_mle_log_probability_q5, M)) if "-INF" not in log_probability_string_unigram_mle_q5 else "INF"
-    perplexity_string_bigram_mle_q5 = str(compute_perplexity(bigram_mle_log_probability_q5, M)) if "-INF" not in log_probability_string_bigram_mle_q5 else "INF"
-    perplexity_string_bigram_aos_q5 = str(compute_perplexity(bigram_aos_log_probability_q5, M)) if "-INF" not in log_probability_string_bigram_aos_q5 else "INF"
+    perplexity_string_unigram_mle_q5 = str(compute_perplexity(unigram_mle_log_probability_q5, M)) if "NaN" not in log_probability_string_unigram_mle_q5 else "NaN"
+    perplexity_string_bigram_mle_q5 = str(compute_perplexity(bigram_mle_log_probability_q5, M)) if "NaN" not in log_probability_string_bigram_mle_q5 else "NaN"
+    perplexity_string_bigram_aos_q5 = str(compute_perplexity(bigram_aos_log_probability_q5, M)) if "NaN" not in log_probability_string_bigram_aos_q5 else "NaN"
 
 
     print("Q1: How many word types (unique words) are there in the training corpus?\n "
@@ -477,11 +474,31 @@ def main():
           "I look forward to hearing your reply .\n")
 
 
-    # todo: Am I even right????
+
 
     print("******Unigram Maximum Likelihood Log Probability******\n" + log_probability_string_unigram_mle_q5)
+    print("Parameters needed:\n")
+    print(params_unigram_mle_q5)
     print("******Bigram Maximum Likelihood Log Probability******\n" + log_probability_string_bigram_mle_q5)
+    print("Parameters needed:\n")
+    print(params_bigram_mle_q5)
     print("******Bigram Add One Smoothing Log Probability******\n" + log_probability_string_bigram_aos_q5)
+    print("Parameters needed:\n")
+    print(params_bigram_aos_q5)
+
+    print("Parameters with 0 probabilities (Notice that only for Bigram MLE:\n")
+    print("Unigram MLE:\n")
+    for key in params_unigram_mle_q5:
+        if test_unigram_mle_q5[key] == 0:
+            print("<"+key + ">" + "\n")
+    print("Bigram MLE:\n")
+    for key in params_bigram_mle_q5:
+        if test_bigram_mle_q5[key] == 0:
+            print("<"+key.split()[0] + ", " + key.split()[1] + ">" + "\n")
+    print("Bigram AOS:\n")
+    for key in params_bigram_aos_q5:
+        if test_bigram_aos_q5[key] == 0:
+            print("<"+key.split()[0] + ", " + key.split()[1] + ">" + "\n")
 
 
     print("Q6: Compute the perplexity of the sentence above under each of the models.\n")
