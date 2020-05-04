@@ -1,0 +1,32 @@
+
+Question 1. Report similarity scores for the following pairs: (dirty, clean), (big, dirty),(big, large) ,(big,small)
+
+Similarity (dirty,clean) 0.3702104091644287
+
+Similarity (big,dirty) 0.31651267409324646
+
+Similarity (big,large) 0.4981013536453247
+
+Similarity (big,small) 0.5249651074409485
+
+Question 2. Report 5 most similar items and the scores to 'polite','orange'
+Most similar to 'polite' [('respectful', 0.6989253163337708), ('courteous', 0.6691893339157104), ('gracious', 0.6625283360481262), ('personable', 0.6376410126686096), ('naïve', 0.6216544508934021)]
+Most similar to 'orange' [('emerald', 0.5284510850906372), ('lackawanna', 0.5236670970916748), ('poinsettia', 0.5179293155670166), ('dutchess', 0.5159942507743835), ('ventura', 0.5113475918769836)]
+
+
+Question 3. Now change the parameters of your model, as follows: window=2, size=50.
+Answer the 2 questions above for this new model.
+Question 1 V2. Report similarity scores for the following pairs: (dirty, clean), (big, dirty),(big, large) ,(big,small)
+
+Similarity (dirty,clean) 0.4816216826438904
+
+Similarity (big,dirty) 0.40415358543395996
+
+Similarity (big,large) 0.6344537138938904
+
+Similarity (big,small) 0.6929161548614502
+
+Question 2 V2. Report 5 most similar items and the scores to 'polite','orange'
+
+Most similar to 'polite' [('respectful', 0.8264871835708618), ('timid', 0.7961392402648926), ('courteous', 0.7742970585823059), ('gracious', 0.7610949277877808), ('candid', 0.7535421252250671)]
+Most similar to 'orange' [('blue', 0.7421604990959167), ('emerald', 0.6497657895088196), ('yellow', 0.6252484917640686), ('pompton', 0.6226673722267151), ('alamo', 0.62168288230896)]
